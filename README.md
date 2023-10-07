@@ -69,3 +69,21 @@ import hou
 
 hou.houdiniPaths()
 ```
+
+# Making a wrapper for houdini
+
+For windows run this script to run houdini with a custom wrapper. `NOTE: Please make sure to change the paths`
+
+```batch
+set PYTHONPATH=%cd%\tools
+set EVE_ROOT=%cd%
+
+"C:\Users\kko8\AppData\Local\Programs\Python\Python310\python.exe" %cd%\tools\pm\project_manager.py
+```
+
+For MacOS we need to do the same with a shell script called `project_manager.sh`
+
+```bash
+# First give the script permission to execute
+chmod +x project_manager.sh
+```
