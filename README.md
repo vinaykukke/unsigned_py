@@ -38,9 +38,9 @@ If there are any problems please refer the official houdini [documentation](http
 - Open the `houdini.env` and add the following:
 ```
 PYTHONPATH = "/usr/local/lib/python3.11/site-packages" ## If you want to install external modules such as numpy
-PYTHONPATH = "/users/vinaykukke/documents/work/houdini-py" ## If you want to install your own custom modules for houdini
+PYTHONPATH = "/users/vinaykukke/documents/work/unsigned_py" ## If you want to install your own custom modules for houdini
 ## If you want to install custom modules as well as packages in python at the same time
-PYTHONPATH = "/users/vinaykukke/documents/work/houdini-py:/users/vinaykukke/documents/work/houdini-py/site-packages"
+PYTHONPATH = "/users/vinaykukke/documents/work/unsigned_py:/users/vinaykukke/documents/work/unsigned_py/site-packages"
 ```
 - Open houdini
 - You can cross check that your module has been added in houdini by doing the following in the python shell:
