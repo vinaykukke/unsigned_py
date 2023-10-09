@@ -11,7 +11,7 @@ def checkExisting(geometryName):
     return True
     
 
-def createGeoNode(geometryName):
+def createGeoNode(geometryName = "test"):
   # Get scene root node
   sceneRoot = hou.node('/obj/')
   # Create empty geometry node in scene root
