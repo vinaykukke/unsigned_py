@@ -25,9 +25,9 @@ def build_folder_structure(self, ASSETS, SHOTS):
   """
     Create list for project folder structure
 
-    :param ASSETS: list of Asset folders ['characters', ['roma', []]]
-    :param SHOTS:  list of Sequences/Shot folders
-    :return:
+    @param ASSETS: list of Asset folders ['characters', ['roma', []]]
+    @param SHOTS:  list of Sequences/Shot folders
+    @return: Returns a list representing the folder structure.
   """
 
   # PROJECT FOLDER STRUCTURE
