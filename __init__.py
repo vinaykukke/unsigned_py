@@ -7,7 +7,13 @@ import hou
 # Define geometry node name
 NAME = 'MY_GEO'
 
-def check_existing(geometry_name):
+def something():
+    """
+    Something
+    """
+    print("This is awesome")
+
+def check_existing(geometry_name: str):
     """
     Checks for existing node's with the given name
     """

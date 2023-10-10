@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<shelfDocument>
+  <!-- This file contains definitions of shelves, toolbars, and tools.
+ It should not be hand-edited when it is being used by the application.
+ Note, that two definitions of the same element are not allowed in
+ a single file. -->
+
+  <toolshelf name="un_studio_lighting" label="Studio Lighting">
+    <memberTool name="snv"/>
+    <memberTool name="asm"/>
+    <memberTool name="shm"/>
+  </toolshelf>
+
+  <tool name="snv" label="SNV" icon="PLASMA_App">
+    <script scriptType="python"><![CDATA[from houdini import lighting
+import importlib
+importlib.reload(lighting)
+lighting.setup()
+    ]]></script>
+  </tool>
+
+  <tool name="asm" label="ASM" icon="PLASMA_App">
+    <script scriptType="python"><![CDATA[from houdini import asset_manager
+asset_manager.run_asset_manager()
+    ]]></script>
+  </tool>
+
+  <tool name="shm" label="SHM" icon="PLASMA_App">
+    <script scriptType="python"><![CDATA[from houdini import shot_manager
+shot_manager.run_shot_manager()
+    ]]></script>
+  </tool>
+</shelfDocument>
