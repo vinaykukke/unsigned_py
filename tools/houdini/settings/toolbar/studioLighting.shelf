@@ -6,12 +6,12 @@
  a single file. -->
 
   <toolshelf name="un_studio_lighting" label="Studio Lighting">
-    <memberTool name="snv"/>
-    <memberTool name="asm"/>
+    <memberTool name="three_point"/>
+    <memberTool name="un_save_vex"/>
     <memberTool name="shm"/>
   </toolshelf>
 
-  <tool name="snv" label="SNV" icon="PLASMA_App">
+  <tool name="three_point" label="Three Point" icon="PLASMA_App">
     <script scriptType="python"><![CDATA[from houdini import lighting
 import importlib
 importlib.reload(lighting)
@@ -19,9 +19,11 @@ lighting.setup()
     ]]></script>
   </tool>
 
-  <tool name="asm" label="ASM" icon="PLASMA_App">
-    <script scriptType="python"><![CDATA[from houdini import asset_manager
-asset_manager.run_asset_manager()
+  <tool name="un_save_vex" label="Save Vex File" icon="PLASMA_App">
+    <script scriptType="python"><![CDATA[from houdini import vex
+import importlib
+importlib.reload(vex)
+vex.save()
     ]]></script>
   </tool>
 
