@@ -3,7 +3,6 @@ Saves all the vex code written in houdini into .vex files in the repository
 """
 
 import hou
-import os
 
 def node_setup():
     """
@@ -35,7 +34,6 @@ def node_setup():
 
     # apply changes
     script.setParmTemplateGroup(g)
- 
 
 def save():
     """

@@ -5,13 +5,22 @@
  Note, that two definitions of the same element are not allowed in
  a single file. -->
 
-  <toolshelf name="un_studio_lighting" label="Studio Lighting">
-    <memberTool name="three_point"/>
-    <memberTool name="un_save_vex"/>
+  <toolshelf name="un__create" label="Create">
+    <memberTool name="un__new_project"/>
+    <memberTool name="un__three_point"/>
+    <memberTool name="un__save_vex"/>
     <memberTool name="shm"/>
   </toolshelf>
 
-  <tool name="three_point" label="Three Point" icon="PLASMA_App">
+  <tool name="un__new_project" label="New Project" icon="PLASMA_App">
+    <script scriptType="python"><![CDATA[from houdini.pm import manager
+import importlib
+importlib.reload(manager)
+manager.create_project()
+    ]]></script>
+  </tool>
+
+  <tool name="un__three_point" label="Three Point" icon="PLASMA_App">
     <script scriptType="python"><![CDATA[from houdini import lighting
 import importlib
 importlib.reload(lighting)
@@ -19,7 +28,7 @@ lighting.setup()
     ]]></script>
   </tool>
 
-  <tool name="un_save_vex" label="Save Vex File" icon="PLASMA_App">
+  <tool name="un__save_vex" label="Save Vex File" icon="PLASMA_App">
     <script scriptType="python"><![CDATA[from houdini import vex
 import importlib
 importlib.reload(vex)
