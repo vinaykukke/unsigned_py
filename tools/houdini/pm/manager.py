@@ -25,10 +25,10 @@ def build_folder_structure(assets, shots):
 
 	# Folders structure
 	folders = [
-		['EDIT', [
-		['OUT', []],
-		['PROJECT', []]
-		]],
+		# ['EDIT', [
+		# ['OUT', []],
+		# ['PROJECT', []]
+		# ]],
 		['PREP', [
 		['ART', []],
 		['SRC', []],

@@ -16,13 +16,13 @@ See [Video](https://www.youtube.com/watch?v=HldzZ5ikZhc&ab_channel=CGchameleon)
   // This will display the location of the houdini module
   hou.__file__
   ```
-- Copy the location of the houdini module and place it in the user settings / Work space Settings (CMD+SHIFT+P && User settings (JSON)) `settings.json` file in vs code, as follows:
+- Copy the location of the houdini module and place it in the Work space Settings by creating a `.vscode` folder and placing a `settings.json` file, with that add as follows:
   ```
   "python.autoComplete.extraPaths": [
-    "/Users/vinaykukke/Applications/Houdini/Houdini19.5.716/Frameworks/Houdini.framework/Versions/19.5/Resources/houdini/python3.9libs/hou.py"
+    "/Applications/Houdini/Houdini19.5.716/Frameworks/Houdini.framework/Versions/19.5/Resources/houdini/python3.9libs/hou.py"
   ],
   "python.analysis.extraPaths": [
-    "/Users/vinaykukke/Applications/Houdini/Houdini19.5.716/Frameworks/Houdini.framework/Versions/19.5/Resources/houdini/python3.9libs/hou.py"
+    "/Applications/Houdini/Houdini19.5.716/Frameworks/Houdini.framework/Versions/19.5/Resources/houdini/python3.9libs/hou.py"
   ],
   "python.autoComplete.preloadModules": ["hou"] // This is invalid but just place it anyways, there will be no errors
   ```
@@ -38,9 +38,12 @@ If there are any problems please refer the official houdini [documentation](http
 - Open the `houdini.env` and add the following:
 ```
 PYTHONPATH = "/usr/local/lib/python3.11/site-packages" ## If you want to install external modules such as numpy
-PYTHONPATH = "/users/vinaykukke/documents/work" ## If you want to install your own custom modules for houdini
-## If you want to install custom modules as well as packages in python at the same time
-PYTHONPATH = "/users/vinaykukke/documents/work:/users/vinaykukke/documents/work/unsigned_py/site-packages"
+HOUDINI_MMB_PAN = 0
+HOUDINI_PATH = "/Users/vinaykukke/Library/Preferences/houdini/19.5/HoudiniExt;&"
+PYTHONPATH = "/Users/vinaykukke/Documents/Work/unsigned_py/tools"
+HOUDINI_TOOLBAR_PATH = "/Users/vinaykukke/Documents/Work/unsigned_py/tools/houdini/settings/toolbar;&"
+HOUDINI_VEX_PATH = "/Users/vinaykukke/Documents/Work/unsigned_py/tools/houdini/vex;&"
+HOUDINI_LMINFO_VERBOSE = 0
 ```
 - Open houdini
 - You can cross check that your module has been added in houdini by doing the following in the python shell:

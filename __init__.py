@@ -21,7 +21,7 @@ def check_existing(geometry_name: str):
     # Check if "MY_GEO" exists
     if hou.node(f"/obj/{geometry_name}"):
         # Display fail message
-        hou.ui.displayMessage(f"{geometry_name} already exists in the scene")
+        hou.ui.displayMessage(f"{geometry_name} already exists in the scene")  # type: ignore
         node_exists = True
     return node_exists
 
@@ -36,7 +36,7 @@ def create_geo_node(geometry_name = "test"):
     # Set geometry node name
     geometry.setName(geometry_name)
     # Display creation message
-    hou.ui.displayMessage(f"{geometry_name} node created!")
+    hou.ui.displayMessage(f"{geometry_name} node created!") # type: ignore
 
 # Execute node creation s
 if check_existing(NAME) is not True:
