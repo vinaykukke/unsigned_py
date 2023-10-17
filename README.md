@@ -44,6 +44,7 @@ PYTHONPATH = "/Users/vinaykukke/Documents/Work/unsigned_py/tools"
 HOUDINI_TOOLBAR_PATH = "/Users/vinaykukke/Documents/Work/unsigned_py/tools/houdini/settings/toolbar;&"
 HOUDINI_VEX_PATH = "/Users/vinaykukke/Documents/Work/unsigned_py/tools/houdini/vex;&"
 HOUDINI_LMINFO_VERBOSE = 0
+JOB = "/Users/vinaykukke/Documents/Work/unsigned_projects"
 ```
 - Open houdini
 - You can cross check that your module has been added in houdini by doing the following in the python shell:

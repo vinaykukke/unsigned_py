@@ -8,6 +8,8 @@ import os
 import subprocess
 import sys
 
+UN_ROOT = "/Users/vinaykukke/Documents/Work/unsigned_projects"
+
 def run_houdini():
 	"""
 	Runs the custom instance of houdini defined for Unsigned Studios
@@ -31,7 +33,44 @@ def run_houdini():
 	# Exit the script with a successful status code
 	sys.exit(0)
 
-def build_folder_structure(assets, shots):
+def build_asset_folders(project_assets):
+	"""
+	Build sequences/shots folder structure list
+	:return:
+	"""
+	assets = []
+
+	for asset in project_assets:
+		folder = [f"{asset}s", [[asset, []]]]
+		assets.append(folder)
+
+	return assets
+
+def create_folder(path):
+	"""
+	Create folder at input path
+	:param path: Path to create folder (C:/TEMP)
+	"""
+
+	if not os.path.exists(path):
+		os.makedirs(path)
+
+def create_folders(folders_template, root = UN_ROOT):
+	"""
+	Recursively build folder structure based on template
+	:param root: Root directory to create folder structure
+	:param folders_template: List of lists, folder structure template
+	:return:
+	"""
+
+	if folders_template:
+		for folder in folders_template:
+			folder_name = folder[0]
+			path = f"{root}/{folder_name}"
+			create_folder(path)
+			create_folders(folder[1], path)
+
+def build_folder_structure(assets):
 	"""
 	Create list for project folder structure
 
@@ -43,15 +82,11 @@ def build_folder_structure(assets, shots):
     # Types structure
 	types = [
 		['ASSETS', assets],
-		['SHOTS', shots]
+		# ['SHOTS', shots]
 	]
 
 	# Folders structure
 	folders = [
-		['EDIT', [
-		['OUT', []],
-		['PROJECT', []]
-		]],
 		['PREP', [
 		['ART', []],
 		['SRC', []],
@@ -59,8 +94,8 @@ def build_folder_structure(assets, shots):
 		]],
 		['PROD', [
 		['2D', [
-			['COMP', shots],
-			['RENDER', shots]
+			['COMP', []],
+			['RENDER', []]
 		]],
 		['3D', [
 			['lib', [
@@ -75,12 +110,12 @@ def build_folder_structure(assets, shots):
 			['ASSETS', assets],
 			['FX', types],
 			]],
-			['render', shots],
+			['render', []],
 			['scenes', [
 			['ASSETS', assets],
 			['SHOTS', [
-				['ANIMATION', shots],
-				['RENDER', shots]
+				['ANIMATION', []],
+				['RENDER', []]
 			]]
 			]],
 			['textures', types],
@@ -90,7 +125,24 @@ def build_folder_structure(assets, shots):
 
 	return folders
 
+def create_project_template():
+	"""
+	Create folder structure on HDD
+	@param project: project object
+	@return None
+	"""
+	# Set all enf variables
+	# set_env()
+	# Build lists for assets and sequences/shots
+	asset_folders = build_asset_folders(["Characters"])
+	# cwd = os.path.dirname(os.path.realpath(__file__))
+	# shot_folders = build_shot_folders(project)
+	# Build folders list
+	folders = build_folder_structure(asset_folders)
+	# Create folders on HDD
+	create_folders(folders)
+
 # Run our custom houdini instance
 # Executed when invoked directly
 if __name__ == "__main__":
-	run_houdini()
+	create_project_template()
