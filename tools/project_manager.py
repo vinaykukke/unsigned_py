@@ -8,8 +8,6 @@ import os
 import subprocess
 import sys
 
-UN_ROOT = "/Users/vinaykukke/Documents/Work/unsigned_projects"
-
 def run_houdini():
 	"""
 	Runs the custom instance of houdini defined for Unsigned Studios
@@ -55,7 +53,7 @@ def create_folder(path):
 	if not os.path.exists(path):
 		os.makedirs(path)
 
-def create_folders(folders_template, root = UN_ROOT):
+def create_folders(folders_template, root = os.environ["UN_ROOT"]):
 	"""
 	Recursively build folder structure based on template
 	:param root: Root directory to create folder structure
