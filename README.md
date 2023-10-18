@@ -91,3 +91,26 @@ For MacOS we need to do the same with a shell script called `project_manager.sh`
 # First give the script permission to execute
 chmod +x project_manager.sh
 ```
+
+# Unsinged CLI - MacOS
+To use the CLI in a linux env, you should add the following to the `.zshrc / .bashrc` - so that the required `unsigned.sh` file is loaded for every terminal session
+
+```bash
+source /Users/vinaykukke/Documents/Work/unsigned_py/unsigned.sh
+```
+
+Then you can use it in the cli as follows:
+> NOTE: This will create all the required folders in the parent dir of `unsigned_py`
+
+```bash
+unsigned init # This will create all the required folders in the parent dir of unsigned_py
+```
+
+# Unsinged CLI - Windows
+To use in windows environment you can do the following:
+
+```batch
+cd unsigned_py
+:: This will create all the required folders in the parent dir of unsigned_py 
+unsigned.bat init
+```
