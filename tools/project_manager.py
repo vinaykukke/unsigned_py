@@ -14,7 +14,7 @@ def run_houdini():
 	"""
 
 	# Set path to Houdini executable
-	houdini = '/Applications/Houdini/Houdini19.5.716/Houdini Apprentice 19.5.716.app/Contents/MacOS/happrentice'
+	houdini = "/Applications/Houdini/Houdini19.5.716/Houdini Apprentice 19.5.716.app/Contents/MacOS/happrentice"
 	# Get the path to PIPELINE folder
 	root_pipe_line = os.path.dirname(__file__).replace('\\','/')
 	# Add path to custom python tools
@@ -68,7 +68,7 @@ def create_folders(folders_template, root = os.environ["UN_ROOT"]):
 			create_folder(path)
 			create_folders(folder[1], path)
 
-def build_folder_structure(assets):
+def build_folder_structure():
 	"""
 	Create list for project folder structure
 
@@ -78,10 +78,10 @@ def build_folder_structure(assets):
 	"""
 
     # Types structure
-	types = [
-		['ASSETS', assets],
-		# ['SHOTS', shots]
-	]
+	# types = [
+	# 	['ASSETS', assets],
+	# 	# ['SHOTS', shots]
+	# ]
 
 	# Folders structure
 	folders = [
@@ -97,26 +97,22 @@ def build_folder_structure(assets):
 		]],
 		['3D', [
 			['lib', [
-			['ANIMATION', []],
-			['MATERIALS', [
-				['MANTRA', []]
-			]]
+			['Animation', []],
+			['Materials', []]
 			]],
-			['fx', types],
-			['caches', types],
-			['hda', [
-			['ASSETS', assets],
-			['FX', types],
-			]],
+			['fx', []],
+			['caches', []],
+			['Assets', []],
+			['hda', []],
 			['render', []],
 			['scenes', [
-			['ASSETS', assets],
-			['SHOTS', [
-				['ANIMATION', []],
-				['RENDER', []]
+			['Assets', []],
+			['Shots', [
+				['Animation', []],
+				['Render', []]
 			]]
 			]],
-			['textures', types],
+			['textures', []],
 		]],
 		]]
 	]
@@ -129,14 +125,8 @@ def create_project_template():
 	@param project: project object
 	@return None
 	"""
-	# Set all enf variables
-	# set_env()
-	# Build lists for assets and sequences/shots
-	asset_folders = build_asset_folders(["Characters"])
-	# cwd = os.path.dirname(os.path.realpath(__file__))
-	# shot_folders = build_shot_folders(project)
 	# Build folders list
-	folders = build_folder_structure(asset_folders)
+	folders = build_folder_structure()
 	# Create folders on HDD
 	create_folders(folders)
 
