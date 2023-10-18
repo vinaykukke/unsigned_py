@@ -77,11 +77,7 @@ def build_folder_structure():
 	@return: Returns a list representing the folder structure.
 	"""
 
-    # Types structure
-	# types = [
-	# 	['ASSETS', assets],
-	# 	# ['SHOTS', shots]
-	# ]
+	print("Building the folder structure...")
 
 	# Folders structure
 	folders = [
@@ -128,7 +124,9 @@ def create_project_template():
 	# Build folders list
 	folders = build_folder_structure()
 	# Create folders on HDD
+	print("Creating the folders...")
 	create_folders(folders)
+	print("You are all set!")
 
 # Run our custom houdini instance
 # Executed when invoked directly
