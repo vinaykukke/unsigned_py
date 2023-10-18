@@ -1,7 +1,22 @@
 #! /bin/zsh
 
-# prints the input
-function init() {
+function unsigned() {
+  if [ "$#" -lt 1 ]; then
+    echo "Error: At least one argument is required."
+    exit 1
+  fi
+
+  if [ $1 = "init" ]; 
+  then
+    __init
+  else
+    # Show a helpful error
+    echo "'$1' is not a known command" >&2
+    exit 1
+  fi
+}
+
+function __init() {
   # Move to the parent dir
   cd ../
   echo 'Initializing your directory!'
@@ -11,13 +26,4 @@ function init() {
   zsh ./unsigned_py/project_manager.sh
 }
 
-# Check if the function exists (bash specific)
-if declare -f "$1" > /dev/null
-then
-  # call arguments verbatim
-  "$@"
-else
-  # Show a helpful error
-  echo "'$1' is not a known function name" >&2
-  exit 1
-fi
+"$@"
