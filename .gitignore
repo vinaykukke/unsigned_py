@@ -3,3 +3,4 @@ __pycache__/
 
 # Vs Code Config
 .vscode/
+.env
