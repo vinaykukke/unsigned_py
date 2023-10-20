@@ -3,4 +3,4 @@
 
 export UN_ROOT="/Users/vinaykukke/Documents/Work/unsigned_projects"
 
-python3 $PWD/unsigned_py/tools/project_manager.py
+python3 $PWD/unsigned_py/tools/houdini/pm/project_manager.py
