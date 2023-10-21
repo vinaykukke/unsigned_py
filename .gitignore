@@ -4,3 +4,8 @@ __pycache__/
 # Vs Code Config
 .vscode/
 .env
+
+# Site Packages
+site-packages/
+site_packages/
+packages/
