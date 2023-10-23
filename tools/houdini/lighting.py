@@ -3,14 +3,16 @@ Custom scripts to create basic lighting setup
 """
 
 import hou
-from houdini import helper
+# from houdini import helper
+# from packages.scipy import constants
 
 def setup():
     """
     Sets up the scene with predetermined requiremnets
     """
-    if helper.check_existing("un_light") is not True:
-        create_threepoint_light()
+    # if helper.check_existing("un_light") is not True:
+    #     create_threepoint_light()
+    # print(constants.acre)
 
 def create_threepoint_light():
     """
@@ -21,3 +23,4 @@ def create_threepoint_light():
     light.parm("light_type").set(2)
     light.parmTuple("t").set((0, 2, 2))
     # print(light.evalParmTuple("t"))
+    # /Applications/Houdini/Houdini19.5.716/Houdini FX 19.5.716.app/Contents/MacOS/houdinifx -m pip install

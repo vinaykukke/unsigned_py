@@ -9,3 +9,6 @@ __pycache__/
 site-packages/
 site_packages/
 packages/
+
+# Get PIP
+get-pip.py
