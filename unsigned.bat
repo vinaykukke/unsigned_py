@@ -70,19 +70,6 @@ exit /b
 "%hython%" -m pip %*
 goto :eof
 
-:pip
-:: Check if the user is in the correct directory
-if "%CD%" neq "!unsigned_dir!" (
-  echo You are not in the correct directory. Please move to: !unsigned_dir! and then install!
-  exit /b 1
-) else (
-  echo Installing PIP in the houdini environment...
-  bitsadmin /transfer mydownload /download /priority normal https://bootstrap.pypa.io/get-pip.py "%~dp0get-pip.py"
-  "%hython%" "%~dp0get-pip.py"
-  echo All set! You can now use PIP in Houdini by calling: hpip
-  exit /b 0
-)
-
 :check
 :: Check if the file exists in the current directory
 if exist "%~1" (
