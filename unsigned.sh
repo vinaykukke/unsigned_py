@@ -2,12 +2,12 @@
 
 # Define the correct directory path
 unsigned_dir="/Users/vinaykukke/Documents/Work/unsigned_py"
+hython="/Applications/Houdini/Houdini19.5.716/Frameworks/Houdini.framework/Versions/19.5/Resources/bin/hython"
 
 # The main unsigned CLI
 function unsigned() {
   if [ "$#" -lt 1 ]; then
     echo "Error: At least one argument is required."
-    exit 1
   fi
 
   if [ $1 = "init" ]; 
@@ -15,26 +15,28 @@ function unsigned() {
     __init
   elif [ $1 = "install" ]; 
   then
-    __check $2
-    pip_exists=$?
+    if [ $2 = "hpip" ]; then
+      __check $2
+      pip_exists=$?
 
-    if [ $pip_exists -eq 1 ]; then
-      echo "PIP already exists!"
-      echo "You can use it with the following command: hpip install numpy"
-      exit 0
+      if [ $pip_exists -eq 1 ]; then
+        echo "PIP already exists!"
+        echo "You can use it with the following command: hpip install numpy"
+      else
+        __pip
+      fi
     else
-      __pip
+      echo "'$2' is not a known command" >&2
     fi
   else
     # Show a helpful error
     echo "'$1' is not a known command" >&2
-    exit 1
   fi
 }
 
 # hpip is the houdini python package manager
 function hpip() {
-  /Applications/Houdini/Houdini19.5.716/Frameworks/Houdini.framework/Versions/19.5/Resources/bin/hython -m pip $@
+  $hython -m pip $@
 }
 
 function __init() {
@@ -55,14 +57,14 @@ function __pip() {
   else
     echo "Installing PIP in the houdini environament..."
     curl -sSL https://bootstrap.pypa.io/get-pip.py -o get-pip.py
-    /Applications/Houdini/Houdini19.5.716/Frameworks/Houdini.framework/Versions/19.5/Resources/bin/hython ./get-pip.py
+    $hython ./get-pip.py
     echo "All set! You can now use PIP in houdini by calling: hpip"
   fi
 }
 
 function __check() {
-  # Check if the file exists in the current directory
-  if [ -e "$1" ]; then
+  # Check if the "get-pip.py" file exists in the current directory
+  if [ -e "get-pip.py" ]; then
     return 1
   else
     return 0
