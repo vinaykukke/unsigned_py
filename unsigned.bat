@@ -57,14 +57,6 @@ if "%~1"=="init" (
 
 exit /b 0
 
-:init
-cd ..
-echo Initializing your directory!
-mkdir unsigned_projects
-call "%CD%\unsigned_py\project_manager.bat"
-exit /b
-
-
 :: hpip is the Houdini Python package manager
 :hpip
 "%hython%" -m pip %*
