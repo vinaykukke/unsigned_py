@@ -60,17 +60,40 @@ unsigned() {
   esac
 }
 
+
+# hpip is the Houdini Python package manager
+hpip() {
+  $hython -m pip "$@"
+}
+
+# Check if the "get-pip.py" file exists in the current directory
+__check() {
+  if [ -e "$1" ]; then
+    return 1
+  else
+    return 0
+  fi
+}
+
 # hpip is the Houdini Python package manager
 function __install_hpip() {
-  # Check if the user is in the correct directory
-  if [ "$PWD" != "$unsigned_dir" ]; then
-    echo "You are not in the correct directory. Please move to: $unsigned_dir and then install."
-    exit 1
+  __check "get-pip.py"
+
+  if [ $? -eq 1 ]; then
+    echo "PIP already exists!"
+    echo "You can use it with the following command: hpip install numpy"
+    exit 0
   else
-    echo "Installing PIP in the Houdini environment..."
-    curl -sSL https://bootstrap.pypa.io/get-pip.py -o get-pip.py
-    $hython ./get-pip.py
-    echo "All set! You can now use PIP in Houdini by calling: hpip"
+    # Check if the user is in the correct directory
+    if [ "$PWD" != "$unsigned_dir" ]; then
+      echo "You are not in the correct directory. Please move to: $unsigned_dir and then install."
+      exit 1
+    else
+      echo "Installing PIP in the Houdini environment..."
+      curl -sSL https://bootstrap.pypa.io/get-pip.py -o get-pip.py
+      $hython ./get-pip.py
+      echo "All set! You can now use PIP in Houdini by calling: hpip"
+    fi
   fi
 }
 
