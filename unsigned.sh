@@ -6,7 +6,7 @@ hython="/Applications/Houdini/Houdini19.5.716/Frameworks/Houdini.framework/Versi
 
 # Function to display usage information
 show_help() {
-  echo "Usage: $0 [command] [options]"
+  echo "Usage: unsigned [command] [options]"
   echo "Commands:"
   echo "  init        Initialize the directory"
   echo "  install     Install packages (e.g., 'install hpip')"
@@ -23,8 +23,9 @@ show_help() {
 unsigned() {
   if [ "$#" -lt 1 ]; then
     echo "Error: At least one argument is required."
+    echo -e "\033[1;31mError: At least one argument is required.033[0m"
     show_help
-    exit 1
+    # exit 1
   fi
 
   case "$1" in
@@ -41,21 +42,21 @@ unsigned() {
             __install_hpip
             ;;
           *)
-            echo "'$2' is not a known subcommand" >&2
+            echo -e "\033[1;31m'$2' is not a known subcommand\033[0m" >&2
             show_help
-            exit 1
+            # exit 1
             ;;
         esac
       else
-        echo "Subcommand 'install' requires a package name (e.g., 'install hpip')" >&2
+        echo -e "\033[1;31mSubcommand 'install' requires a package name (e.g., 'install hpip')\033[0m" >&2
         show_help
-        exit 1
+        # exit 1
       fi
       ;;
     *)
-      echo "'$1' is not a known command" >&2
+      echo -e "\033[1;31m'$1' is not a known command\033[0m" >&2
       show_help
-      exit 1
+      # exit 1
       ;;
   esac
 }
@@ -81,18 +82,18 @@ function __install_hpip() {
 
   if [ $? -eq 1 ]; then
     echo "PIP already exists!"
-    echo "You can use it with the following command: hpip install numpy"
-    exit 0
+    echo -e "\033[1;32mYou can use it with the following command: hpip install numpy\033[0m"
+    # exit 0
   else
     # Check if the user is in the correct directory
     if [ "$PWD" != "$unsigned_dir" ]; then
-      echo "You are not in the correct directory. Please move to: $unsigned_dir and then install."
-      exit 1
+      echo -e "\033[1;31mYou are not in the correct directory. Please move to: $unsigned_dir and then install.\033[0m"
+      # exit 1
     else
       echo "Installing PIP in the Houdini environment..."
       curl -sSL https://bootstrap.pypa.io/get-pip.py -o get-pip.py
       $hython ./get-pip.py
-      echo "All set! You can now use PIP in Houdini by calling: hpip"
+      echo -e "\033[1;32mAll set! You can now use PIP in Houdini by calling: hpip\033[0m"
     fi
   fi
 }
