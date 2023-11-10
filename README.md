@@ -114,3 +114,7 @@ cd unsigned_py
 :: This will create all the required folders in the parent dir of unsigned_py 
 unsigned.bat init
 ```
+
+# Installing 3rd party packages into houdini
+Navigate to `/Users/vinaykukke/Library/Preferences/houdini/19.5/` and look for the `packages` folder - if it doesn't exist the create one. Move all you folders to this directory and restart houdini.
+> This is where houdini will look for 3rd party packages you have installed 

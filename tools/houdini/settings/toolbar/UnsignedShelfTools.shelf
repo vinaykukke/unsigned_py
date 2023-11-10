@@ -10,6 +10,7 @@
     <memberTool name="un__three_point"/>
     <memberTool name="un__save_vex"/>
     <memberTool name="shm"/>
+    <memberTool name="tool_3"/>
   </toolshelf>
 
   <tool name="un__new_project" label="New Project" icon="PLASMA_App">
