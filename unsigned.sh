@@ -2,7 +2,7 @@
 
 # Define the correct directory path
 unsigned_dir="/Users/vinaykukke/Documents/Work/unsigned_py"
-hython="/Applications/Houdini/Houdini19.5.716/Frameworks/Houdini.framework/Versions/19.5/Resources/bin/hython"
+hython="/Applications/Houdini/Houdini20.0.506/Frameworks/Houdini.framework/Versions/20.0/Resources/bin/hython"
 
 # Function to display usage information
 show_help() {
