@@ -48,7 +48,7 @@ def organize_layout():
     # Square root to get a square layout, you can adjust this based on your preference
     n = int(num_nodes**0.5)
     num_columns = n
-    # num_rows = n
+    num_rows = n
 
     # Set the initial position
     x_position = 0
@@ -59,12 +59,12 @@ def organize_layout():
         node.setPosition(hou.Vector2(x_position, y_position))
 
         # Update the position for the next node
-        x_position += 4  # Move by 4 units for the next column
+        y_position += 2.5  # Move by 4 units for the column
 
         # If we reach the end of a row, reset the x-position and move to the next row
         if (i + 1) % num_columns == 0:
-            x_position = 0
-            y_position -= 4  # Move down by 4 units for the next row
+            x_position += 2.5  # Move down by 2 units for the next row
+            y_position = 0
 
 
 def main():
