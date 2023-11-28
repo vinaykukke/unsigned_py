@@ -42,30 +42,42 @@ def organize_layout():
         print("No nodes found at the OBJ level.")
         return
 
-    # Get the number of nodes to arrange
-    num_nodes = len(all_nodes)
+    # Separate connected and unconnected nodes
+    connected_nodes = []
+    unconnected_nodes = []
+
+    for node in all_nodes:
+        if node.inputConnections() or node.outputConnections():
+            connected_nodes.append(node)
+        else:
+            unconnected_nodes.append(node)
+
+    # Function to arrange nodes vertically and then horizontally
+    def arrange_unconnected_nodes(nodes, num_columns, start_position):
+        # Set the initial position
+        x_position = start_position[0]
+        y_position = start_position[1]
+
+        # Iterate through nodes and set their positions
+        for i, node in enumerate(nodes):
+            node.setPosition(hou.Vector2(x_position, y_position))
+
+            # Update the position for the next node
+            y_position -= 2.5  # Move down by 2 units for the next row
+
+            # If we reach the end of a column, reset the y-position and move to the next column
+            if (i + 1) % num_columns == 0:
+                y_position = start_position[1]
+                x_position += 2.5  # Move right by 2 units for the next column
 
     # Specify the number of columns and rows (both set to n)
     # Square root to get a square layout, you can adjust this based on your preference
-    n = int(num_nodes**0.5)
+    n = int(len(all_nodes)**0.5)
     num_columns = n
-    num_rows = n
 
-    # Set the initial position
-    x_position = 0
-    y_position = 0
-
-    # Iterate through all nodes at the OBJ level and set their positions
-    for i, node in enumerate(all_nodes):
-        node.setPosition(hou.Vector2(x_position, y_position))
-
-        # Update the position for the next node
-        y_position += 2.5  # Move by 4 units for the column
-
-        # If we reach the end of a row, reset the x-position and move to the next row
-        if (i + 1) % num_columns == 0:
-            x_position += 2.5  # Move down by 2 units for the next row
-            y_position = 0
+    # Arrange unconnected nodes on the right
+    start_position_unconnected = (4 * num_columns, 0)
+    arrange_unconnected_nodes(unconnected_nodes, num_columns, start_position_unconnected)
 
 def main():
     """
