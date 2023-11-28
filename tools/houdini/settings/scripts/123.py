@@ -29,44 +29,6 @@ def create_geo():
     # geo.moveToGoodPosition()
     geo.setDisplayFlag(True)
 
-
-def organize_layout():
-    # Get the OBJ level
-    obj_level = hou.node("/obj")
-
-    # Get all nodes at the OBJ level
-    all_nodes = obj_level.children()
-
-    if not all_nodes:
-        print("No nodes found at the OBJ level.")
-        return
-
-    # Get the number of nodes to arrange
-    num_nodes = len(all_nodes)
-
-    # Specify the number of columns and rows (both set to n)
-    # Square root to get a square layout, you can adjust this based on your preference
-    n = int(num_nodes**0.5)
-    num_columns = n
-    num_rows = n
-
-    # Set the initial position
-    x_position = 0
-    y_position = 0
-
-    # Iterate through all nodes at the OBJ level and set their positions
-    for i, node in enumerate(all_nodes):
-        node.setPosition(hou.Vector2(x_position, y_position))
-
-        # Update the position for the next node
-        y_position += 2.5  # Move by 4 units for the column
-
-        # If we reach the end of a row, reset the x-position and move to the next row
-        if (i + 1) % num_columns == 0:
-            x_position += 2.5  # Move down by 2 units for the next row
-            y_position = 0
-
-
 def main():
     """
     Main function
@@ -74,7 +36,6 @@ def main():
     create_camera()
     create_geo()
     mantra_driver()
-    organize_layout()
 
 if __name__ == '__main__':
     main()
