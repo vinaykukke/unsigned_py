@@ -118,3 +118,13 @@ unsigned.bat init
 # Installing 3rd party packages into houdini
 Navigate to `/Users/vinaykukke/Library/Preferences/houdini/19.5/` and look for the `packages` folder - if it doesn't exist the create one. Move all you folders to this directory and restart houdini.
 > This is where houdini will look for 3rd party packages you have installed 
+
+# Incase of License Issues OR License Server issues
+You can start or stop the license server by using these commands
+
+```bash
+# To stop the license server: 
+sudo launchctl unload /Library/LaunchDaemons/com.sidefx.sesinetd.plist
+# To start the license server: 
+sudo launchctl load -w /Library/LaunchDaemons/com.sidefx.sesinetd.plist
+```
