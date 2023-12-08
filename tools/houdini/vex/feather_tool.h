@@ -1,3 +1,5 @@
+#include <feather_tool_types.h>
+
 int create_attributes(int prim_num) {
     /** Stores all the points on a primitive and puts into an array */
     int prim_pts[] = primpoints(0, prim_num);
@@ -40,39 +42,25 @@ vector rotate(float angle; float ramp; vector vector_to_rotate; vector second_ve
 	return qrotate(quat, vector_to_rotate);
 }
 
-void add_points(
-    vector p;
-    vector dir;
-    int pid;
-    int ptnum;
-    float scale;
-    float ramp;
-    float min;
-    float max;
-    int seed;
-    float s;
-    vector edge_dir;
-    vector avg_n;
-    vector dir;
-    ) {
-
+void add_points(AddPoints pt) {
     /** Manually created attribues */
-    
     /** Scaling Randomization */
-    float random_number = pid + rand(pid*seed+11)*11;
-    float random_scale = fit01(rand(ptnum+random_number), min, max);
+    float random_number = pt.i.pid + rand(pt.i.pid*pt.i.seed+11)*11;
+    float random_scale = fit01(rand(pt.i.ptnum+random_number), pt.f.min, pt.f.max) * pt.f.random_painted_scale;
 
 	/** Control the scale fo the feather */
-    scale = scale * ramp + random_scale;
+    pt.f.scale = pt.f.scale * pt.f.ramp + random_scale;
+    /** Multiply the weighted attribute `painted_scale` to the actual scale of the object */
+    pt.f.scale *= pt.f.painted_scale;
 
 	/** Creating the Geometry*/
 	int prim = addprim(0, "polyline");
 
 	/** Adds point and moves them along the desired direction */
-	int new_point = addpoint(0, p+dir*scale);
+	int new_point = addpoint(0, pt.v.p+pt.v.dir*pt.f.scale);
 
 	/** Creates a line between our current point and new point */
-	addvertex(0, prim, ptnum);
+	addvertex(0, prim, pt.i.ptnum);
 	addvertex(0, prim, new_point);
 
     /** Add all the newly created primitives into their own group */
@@ -84,26 +72,9 @@ void add_points(
      * ************************************************************
      * Transfer all the attributes to the newly created points.
      */
-    setpointattrib(0, "s", new_point, s, "set");
-    setpointattrib(0, "edge_dir", new_point, edge_dir, "set");
-    setpointattrib(0, "dir", new_point, dir, "set");
-    setpointattrib(0, "avg_n", new_point, avg_n, "set");
-    setpointattrib(0, "pid", new_point, pid, "set");
-}
-
-vector ribbon_feather(
-    float f[]; 
-    float w[]; 
-    int pid;
-    float angle;
-    float ramp;
-    vector edge_dir;
-    vector dir
-    ) {
-    float rand_freq = fit01(rand(pid*1111 + 11), f[1], f[2]);
-    float rand_weight = fit01(rand(pid*2222 + 22), w[1], w[2]);
-    angle *= w[0] * ramp;
-    vector4 quat = quaternion(radians(angle), edge_dir);
-
-	return qrotate(quat, dir);
+    setpointattrib(0, "s", new_point, pt.f.s, "set");
+    setpointattrib(0, "edge_dir", new_point, pt.v.edge_dir, "set");
+    setpointattrib(0, "dir", new_point, pt.v.dir, "set");
+    setpointattrib(0, "avg_n", new_point, pt.v.avg_n, "set");
+    setpointattrib(0, "pid", new_point, pt.i.pid, "set");
 }
