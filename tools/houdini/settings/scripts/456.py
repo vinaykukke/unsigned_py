@@ -25,15 +25,15 @@ def create_camera():
 
 # Create Mantra - PBR driver
 def mantra_driver():
-  """
-  Check and place drivers
-  """
-  node = hou.node("/out/idf")
+    """
+    Check and place drivers
+    """
+    node = hou.node("/out/idf")
 
-  if node is None:
-    node = hou.node("/out").createNode("ifd")
-    node.setParms({"vm_renderengine": "pbrraytrace",
-               "override_camerares": True, "camera": "/obj/cam_1080"})
+    if node is None:
+        node = hou.node("/out").createNode("ifd")
+        node.setParms({"vm_renderengine": "pbrraytrace",
+                "override_camerares": True, "camera": "/obj/cam_1080"})
 
 def organize_layout():
     # Get the OBJ level
