@@ -7,7 +7,8 @@ struct AddPointVector {
 
 struct AddPointFloat {
 	float scale;
-    float ramp;
+    float scale_ramp;
+	float random_scale_ramp;
     float min;
     float max;
 	float s;

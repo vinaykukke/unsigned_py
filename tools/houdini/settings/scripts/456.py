@@ -11,10 +11,14 @@ def create_camera():
     """
     Creates a basic camera object
     """
-    camera = hou.node("/obj/cam_1080")
+    # Get all nodes in the "/obj" context
+    obj_context = hou.node("/obj")
+
+    # Get all cameras in the scene
+    cameras = [node for node in obj_context.children() if node.type().name() == "cam"]
 
     # if there is no camera add one
-    if camera is None:    
+    if len(cameras) == 0:    
         node = hou.node("/obj").createNode("cam", "cam_1080")
         node.setParms({"resx": 1920, "resy": 1080})
         node.setDisplayFlag(False)
