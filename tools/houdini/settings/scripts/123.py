@@ -17,9 +17,12 @@ def create_camera():
 
 # Create Mantra - PBR driver
 def mantra_driver():
-  node = hou.node("/out")
-  out = node.createNode("ifd")
-  out.setParms({"vm_renderengine": "pbrraytrace", "override_camerares": True, "camera": "/obj/cam_1080"})
+    node = hou.node("/out/idf")
+
+    if node is None:
+        node = hou.node("/out")
+        out = node.createNode("ifd")
+        out.setParms({"vm_renderengine": "pbrraytrace", "override_camerares": True, "camera": "/obj/cam_1080"})
 
 def create_geo():
     """

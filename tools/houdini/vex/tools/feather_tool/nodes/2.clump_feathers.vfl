@@ -1,0 +1,134 @@
+#include <feather_tool.h>
+
+float u_start = chf("u_start");
+float u_end = chf("u_end");
+float random_number = i@pid + int(rand(i@pid + 1111) * 1111);
+int seed = chi("seed");
+int max_clump = chi("max_clump");
+float min_angle = chf("min_angle");
+float max_angle = chf("max_angle");
+float angle_right = fit01(rand(i@pid + random_number + seed * 3333) * 3333, min_angle, max_angle);
+float angle_left = fit01(rand(i@pid + random_number + seed * 4444) * 4444, min_angle, max_angle);
+vector rotation_axis = normalize(cross(normalize(v@dir), normalize(v@edge_dir)));
+
+f[]@u_pos_right;
+f[]@u_pos_left;
+i[]@pts;
+f@sum_of_all_angles;
+f@clump_num_right = fit01(rand(i@pid + random_number + seed * 3), 0, max_clump);
+f@clump_num_left = fit01(rand(i@pid + random_number + seed * 9), 0, max_clump);
+
+/** Check the side of the feather */
+if (i@side == 1) {
+    /** Right Side */
+    float u_pos;
+    vector pos;
+    float u_inc = (u_end - u_start) / @clump_num_right; 
+    float loop_inc = u_start + u_inc;
+    float loop_start = u_start;
+
+    /** Find the clump position */
+    for (int i = 0; i < i@clump_num_right; i++)  {
+        u_pos = fit01(rand(i@pid + random_number + seed), loop_start, loop_inc);
+        append(@u_pos_right, u_pos);
+        loop_start += u_inc;
+        loop_inc += u_inc;
+    }
+
+    /** Extract the 3D position from the u_pos */
+    foreach (float val; @u_pos_right) {
+        int prev_pts = @pts[len(@pts) - 1];
+        /** Get the position from the primitive and store in pos */
+        prim_attribute(0, pos , "P", @primnum, val, 0);
+        int pt = nearpoint(0, pos);
+        i@prev_pt = prev_pts;
+        i@pt = pt;
+        i@condition_right = prev_pts == pt || pt % 2 != 0;
+
+        /** If our near point is the same as the prev point then add 1 */
+        if (prev_pts == pt || pt % 2 != 0) {
+            pt += 1;
+        }
+        
+        append(@pts, pt);
+    }
+
+    /** Find points on each primitive */
+    int prim_points[] = primpoints(0, i@pid);
+    /** Trying to be non destructive */
+    i[]@check_pts = @pts;
+    /** Insert the 1st point of each primitive into check_pts */
+    insert(@check_pts, 0, min(prim_points));
+    /** Inset the last point of each primitive into the check_pts */
+    append(@check_pts, max(prim_points));
+
+    /** Calculate the angle */
+    foreach (int i; @pts){
+        if (@ptnum > i) {
+            @sum_of_all_angles += angle_right;
+            
+            if (@sum_of_all_angles >= 90) {
+                angle_right = 0;
+            }
+            /** Rotation applied only once */
+            vector4 rotation = quaternion(radians(angle_right), rotation_axis);
+            v@dir = qrotate(rotation, v@dir);
+        }
+    }
+} else {
+    /** Left Side */
+    float u_pos;
+    vector pos;
+    float u_inc = (u_end - u_start) / @clump_num_left;
+    float loop_inc = u_start + u_inc;
+    float loop_start = u_start;
+
+    /** Find the clump position */
+    for (int i = 0; i < i@clump_num_left; i++)  {
+        u_pos = fit01(rand(i@pid + random_number + seed), loop_start, loop_inc);
+        append(@u_pos_left, u_pos);
+        loop_start += u_inc;
+        loop_inc += u_inc;
+    }
+
+    /** Extract the 3D position from the u_pos */
+    foreach (float val; @u_pos_left) {
+        int prev_pts = @pts[len(@pts) - 1];
+        /** Get the position from the primitive and store in pos */
+        prim_attribute(0, pos , "P", @primnum, val, 0);
+        int pt = nearpoint(0, pos);
+        i@prev_pt = prev_pts;
+        i@pt = pt;
+        i@condition_left = prev_pts == pt || pt % 2 == 0;
+
+        /** If our near point is the same as the prev point then add 1 */
+        if (prev_pts == pt || pt % 2 == 0) {
+            pt += 1;
+        }
+        
+        append(@pts, pt);
+    }
+
+    /** Find points on each primitive */
+    int prim_points[] = primpoints(0, i@pid);
+    /** Trying to be non destructive */
+    i[]@check_pts = @pts;
+    /** Insert the 1st point of each primitive into check_pts */
+    insert(@check_pts, 0, min(prim_points));
+    /** Inset the last point of each primitive into the check_pts */
+    append(@check_pts, max(prim_points));
+
+    /** Calculate the angle */
+    foreach (int i; @pts) {
+        if (@ptnum > i) {
+            @sum_of_all_angles += angle_left;
+            
+            if (@sum_of_all_angles >= 90) {
+                angle_left = 0;
+            }
+
+            vector4 rotation = quaternion(radians(angle_left), rotation_axis);
+            v@dir = qrotate(rotation, v@dir);
+        }
+    }
+}

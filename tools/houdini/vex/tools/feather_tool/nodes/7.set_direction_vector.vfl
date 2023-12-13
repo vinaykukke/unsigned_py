@@ -1,0 +1,7 @@
+v@dir = normalize(cross(normalize(v@avg_n), normalize(v@edge_dir)));
+i@side = 1;
+
+if (i@ptnum %2 != 0) {
+   @dir *= -1;
+   @side *= -1;
+}

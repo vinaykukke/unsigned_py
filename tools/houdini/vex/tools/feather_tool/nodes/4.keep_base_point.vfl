@@ -1,0 +1,3 @@
+#include <feather_tool.h>
+
+keep_base_point(i@ptnum, i@root_pt);

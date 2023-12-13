@@ -1,0 +1,16 @@
+float freq_min = chf("freq_max");
+float freq_max = chf("freq_min");
+float weight_min = chf("weight_min");
+float weight_max = chf("weight_max");
+float rand_freq = fit01(rand(i@pid*1111 + 11), freq_min, freq_max);
+float rand_weight = fit01(rand(i@pid*2222 + 22), weight_min, weight_max);
+float freq = chf("frequency") * rand_freq;
+float weight = chf("weight") * rand_weight * f@painted_ribbon;
+float s_ramp = chramp("ribbon_ramp", f@s);
+float ribbon_angle = sin(chramp("ribbon_profile", f@s) * freq);
+
+ribbon_angle *= weight * s_ramp;
+
+vector4 quat = quaternion(radians(ribbon_angle), v@edge_dir);
+
+v@dir = qrotate(quat, v@dir);

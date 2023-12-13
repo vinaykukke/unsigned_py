@@ -1,0 +1,3 @@
+#include <feather_tool.h>
+
+v@avg_n = set_avg_n(i@pid);

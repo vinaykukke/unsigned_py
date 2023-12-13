@@ -27,3 +27,20 @@ struct AddPoints {
 	AddPointFloat f;
 	AddPointInt i;
 };
+
+struct ClumpInfo {
+    float u_start;
+    float u_end;
+    float random_number;
+    float seed;
+    float u_pos[];
+    float clump_num;
+    float angle;
+    float sum_of_angles;
+    int pts[];
+    int pid;
+    int primnum;
+    int ptnum;
+    vector dir;
+    vector rot_axis;
+}

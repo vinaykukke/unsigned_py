@@ -41,3 +41,54 @@ vector rotate(float angle; float ramp; vector vector_to_rotate; vector second_ve
 
 	return qrotate(quat, vector_to_rotate);
 }
+
+vector clump_feathers(ClumpInfo info) {
+    /** Right Side */
+    float u_pos;
+    vector pos;
+    vector dir = info.dir;
+    float u_inc = (info.u_end - info.u_start) / info.clump_num; 
+    float loop_inc = info.u_start + u_inc;
+    float loop_start = info.u_start;
+
+    /** Find the clump position */
+    for (int i = 0; i < info.clump_num; i++)  {
+        u_pos = fit01(rand(info.pid + info.random_number + info.seed), loop_start, loop_inc);
+        append(info.u_pos, u_pos);
+        loop_start += u_inc;
+        loop_inc += u_inc;
+    }
+
+    /** Extract the 3D position from the u_pos */
+    foreach (float val; info.u_pos) {
+        int prev_pts = info.pts[len(info.pts) - 1];
+        int pt = nearpoint(0, pos);
+        int condition_right = prev_pts == pt || pt % 2 != 0;
+        int condition_left = prev_pts == pt || pt % 2 == 0;
+        /** Get the position from the primitive and store in pos */
+        prim_attribute(0, pos , "P", info.primnum, val, 0);
+
+        /** If our near point is the same as the prev point then add 1 */
+        if (condition_right || condition_left) {
+            pt += 1;
+        }
+
+        append(info.pts, pt);
+    }
+
+    /** Calculate the angle */
+    foreach (int i; info.pts){
+        if (info.ptnum > i) {
+            info.sum_of_angles += info.angle;
+            
+            if (info.sum_of_angles >= 90) {
+                info.angle = 0;
+            }
+
+            vector4 rotation = quaternion(radians(info.angle), info.rot_axis);
+            dir = qrotate(rotation, dir);
+        }
+    }
+
+    return dir;
+}

@@ -1,0 +1,10 @@
+#include <feather_tool.h>
+
+float angle = chf("angle") - f@sum_of_all_angles;
+// Calculate tilt rotation
+float tilt_angle = chf("tilt_angle") * f@painted_tilt;
+float angle_ramp = fit01(chramp("angle_ramp", f@s), 1-f@painted_rotation, 1);
+
+v@dir = rotate(angle, angle_ramp, v@dir, v@edge_dir);
+vector4 quat = quaternion(radians(tilt_angle), v@edge_dir);
+v@dir = qrotate(quat, v@dir);

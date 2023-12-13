@@ -1,0 +1,4 @@
+#include <feather_tool.h>
+
+i@pid = @primnum;
+i@root_pt = create_attributes(i@primnum);
