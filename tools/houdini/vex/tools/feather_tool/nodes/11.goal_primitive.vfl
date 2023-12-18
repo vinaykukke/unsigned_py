@@ -1,0 +1,1 @@
+i@goal_primitives = max(pointprims(0, i@goal_pt));

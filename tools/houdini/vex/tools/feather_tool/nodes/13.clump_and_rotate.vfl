@@ -1,0 +1,5 @@
+if (len(i[]@pts) > 0) {
+    vector pos = point(0, "P", i@goal_pt);
+    float bias = chramp("s_ramp", @s) * chramp("t_ramp", @t_barb);
+    @P = lerp(@P, pos, bias);
+}

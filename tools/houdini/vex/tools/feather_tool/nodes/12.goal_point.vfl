@@ -1,0 +1,2 @@
+int goal_clump_point[] = primpoints(0, i@goal_primitives);
+i@goal_pt = max(goal_clump_point);

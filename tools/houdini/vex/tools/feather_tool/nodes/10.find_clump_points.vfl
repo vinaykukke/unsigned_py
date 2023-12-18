@@ -1,0 +1,17 @@
+i@goal_pt;
+
+/**
+ * Should always point to the highest point in the array.
+ * Meaning - in the pts array make the barba always point to the
+ * highest clump point and make all the primitives turn to that side.
+ */
+for (int i = 0; i < len(i[]@check_pts); i++){
+    /* code */
+    if (@ptnum >= @check_pts[i-1] && @ptnum <= @check_pts[i]) {
+        if (@check_pts[i-1] == @ptnum) {
+            @goal_pt = @ptnum;
+        } else {
+            @goal_pt = @check_pts[i];
+        }
+    }
+}

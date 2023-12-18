@@ -33,3 +33,7 @@ setpointattrib(0, "edge_dir", new_point, v@edge_dir, "set");
 setpointattrib(0, "dir", new_point, v@dir, "set");
 setpointattrib(0, "avg_n", new_point, v@avg_n, "set");
 setpointattrib(0, "pid", new_point, i@pid, "set");
+setpointattrib(0, "root_pt", new_point, i@root_pt, "set");
+setpointattrib(0, "goal_pt", new_point, i@goal_pt, "set");
+setpointattrib(0, "check_pts", new_point, i[]@check_pts, "set");
+setpointattrib(0, "pts", new_point, i[]@pts, "set");
