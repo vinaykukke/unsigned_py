@@ -7,6 +7,7 @@ def force_compile(node):
     children_wr = wrangle_node.allSubChildren()
     compile_btn = children_wr[0].parm("vop_forcecompile")
     compile_btn.pressButton()
+    print(f"Force compiled node: {node.name()}")
 
 def get_code(file_path, node, name):
     # Read the contents of the file
@@ -16,9 +17,11 @@ def get_code(file_path, node, name):
     # Set the VEX code in the Wrangle node
     node.parm("snippet").set(file_contents)
     # Set the name of the node on restore
-    node.setName(f"un__{name.split('.')[1]}")
+    if "un__" not in node.name():
+        node.setName(f"un__{name.split('.')[1]}")
+    
+    # Force the compile on update
     force_compile(node)
-    print(f"Created Wrangle node '{name}' with contents from {file_path}")
 
 def restore(tool_name: str):
     # Get all items in the directory
