@@ -15,8 +15,8 @@ f[]@u_pos_right;
 f[]@u_pos_left;
 i[]@pts;
 f@sum_of_all_angles;
-f@clump_num_right = fit01(rand(i@pid + random_number + seed * 3), 0, max_clump);
-f@clump_num_left = fit01(rand(i@pid + random_number + seed * 9), 0, max_clump);
+f@clump_num_right = fit01(rand(i@pid + random_number + seed * 3), 1, max_clump);
+f@clump_num_left = fit01(rand(i@pid + random_number + seed * 9), 1, max_clump);
 
 float clump_num = i@side == 1 ? @clump_num_right : @clump_num_left;
 float u_pos_side[] = i@side == 1 ? @u_pos_right : @u_pos_left;
