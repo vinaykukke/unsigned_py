@@ -1,6 +1,12 @@
-from ast import Not
 import os
 import hou
+
+def force_compile(node):
+    children = node.children()
+    wrangle_node = [c for c in children if c.name() == "unsigned_wrangle"].pop()
+    children_wr = wrangle_node.allSubChildren()
+    compile_btn = children_wr[0].parm("vop_forcecompile")
+    compile_btn.pressButton()
 
 def get_code(file_path, node, name):
     # Read the contents of the file
@@ -11,6 +17,7 @@ def get_code(file_path, node, name):
     node.parm("snippet").set(file_contents)
     # Set the name of the node on restore
     node.setName(f"un__{name.split('.')[1]}")
+    force_compile(node)
     print(f"Created Wrangle node '{name}' with contents from {file_path}")
 
 def restore(tool_name: str):
