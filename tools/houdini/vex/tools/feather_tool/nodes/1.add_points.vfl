@@ -37,3 +37,4 @@ setpointattrib(0, "root_pt", new_point, i@root_pt, "set");
 setpointattrib(0, "goal_pt", new_point, i@goal_pt, "set");
 setpointattrib(0, "check_pts", new_point, i[]@check_pts, "set");
 setpointattrib(0, "pts", new_point, i[]@pts, "set");
+setpointattrib(0, "painted_concave", new_point, i@painted_concave, "set");

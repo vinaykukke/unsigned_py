@@ -1,0 +1,8 @@
+/** 
+ * Given a position in world space, 
+ * returns the position of the closest point on a given geometry.
+ */
+vector min_pos = minpos(1, @P);
+float bias = chramp("s_ramp", @s) * chramp("t_ramp", @t_barb) * i@painted_concave;
+
+@P = lerp(@P, min_pos, bias);
