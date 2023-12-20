@@ -1,0 +1,4 @@
+matrix m = ident();
+float angle = radians(chf("angle"));
+
+rotate(m, angle, v@edge_dir);
