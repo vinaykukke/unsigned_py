@@ -1,4 +1,13 @@
 matrix m = ident();
 float angle = radians(chf("angle"));
 
+/** Find the pivot points */
+int pivot_pt = min(primpoints(0, @primnum));
+vector pivot_pos = point(0, "P", pivot_pt);
+/** Send all the points to the origin */
+@P -= pivot_pos;
+/** Rotate */
 rotate(m, angle, v@edge_dir);
+@P *= m;
+/** Fix pivot points */
+@P += pivot_pos;

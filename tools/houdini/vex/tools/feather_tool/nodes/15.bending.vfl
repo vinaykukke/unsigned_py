@@ -1,0 +1,5 @@
+vector bend_pos = (@P + point(1, "P", @ptnum)) / 2;
+
+float bias = chramp("s_ramp", @s) * chramp("t_ramp", @t_barb);
+
+@P = lerp(@P, bend_pos, bias);

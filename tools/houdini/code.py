@@ -11,21 +11,6 @@ def force_compile(node):
         compile_btn.pressButton()
         print(f"Force compiled node: {node.name()}")
 
-def get_file_name(tool_name, file_name):
-    children = hou.node(f"/obj/{tool_name}").children()
-    node_name = f"un__{file_name.split('.')[1]}"
-
-    def __filter(c):
-        if node_name in c.name():
-            return c
-    
-    node_list = list(filter(__filter, children))
-    if len(node_list) >= 1:
-        node_name = f"{node_name}__{len(node_list)+1}"
-    
-    return node_name
-            
-
 def get_code(file_path, node, name):
     # Read the contents of the file
     with open(file_path, 'r') as file:
@@ -52,7 +37,7 @@ def restore(tool_name: str):
         current_node = selected_nodes[0]
         file_name = current_node.parm("file_name").rawValue()
         file_path = os.path.join(vex_path, tool_name, "nodes", file_name);
-        get_code(file_path, current_node, get_file_name(tool_name, file_name))
+        get_code(file_path, current_node, f"un__{file_name.split('.')[1]}")
 
 def clear():
     selected_nodes = hou.selectedNodes()
