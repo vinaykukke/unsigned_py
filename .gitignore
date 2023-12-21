@@ -12,3 +12,6 @@ packages/
 
 # Get PIP
 get-pip.py
+
+# Houdini HDA backup dir
+backup

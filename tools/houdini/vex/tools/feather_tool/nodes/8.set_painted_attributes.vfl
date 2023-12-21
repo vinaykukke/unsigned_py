@@ -3,3 +3,4 @@ f@random_painted_scale = point(0, "random_painted_scale", i@root_pt);
 f@painted_ribbon = point(0, "painted_ribbon", i@root_pt);
 f@painted_tilt = point(0, "painted_tilt", i@root_pt);
 f@painted_rotation = point(0, "painted_rotation", i@root_pt);
+f@painted_concave = point(0, "painted_concave", i@root_pt);
