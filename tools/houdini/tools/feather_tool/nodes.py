@@ -11,9 +11,12 @@ class Parameters(Enum):
     ANIMATED_SKIN = hou.parm(f"{Paths.ASSET.value}/merge_animated_skin").eval()
 
 def check():
-    if (hasattr(hou.session, 'un_ft_attributes_created')): # type: ignore
-        created = hou.session.un_ft_attributes_created  # type: ignore
-        if (created):
+    attributes_created = hou.parm(f"{Paths.ASSET.value}/attributes_created").eval()
+    has_attr_in_session = hasattr(hou.session, 'un_ft_attributes_created') # type: ignore
+    check_condition = attributes_created and has_attr_in_session
+
+    if (check_condition):
+        if (has_attr_in_session):
             hou.ui.displayMessage("All the attributes have already been created!!")  # type: ignore
             sys.exit()
     else:
@@ -74,3 +77,5 @@ def create():
 
     # Add to the session
     hou.setSessionModuleSource("un_ft_attributes_created = True")
+    # Add to the created_attributes paramater
+    hou.parm(f"{Paths.ASSET.value}/attributes_created").set(1)
