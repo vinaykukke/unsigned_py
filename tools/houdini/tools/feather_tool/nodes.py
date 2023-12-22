@@ -11,12 +11,18 @@ class Parameters(Enum):
     ANIMATED_SKIN = hou.parm(f"{Paths.ASSET.value}/merge_animated_skin").eval()
 
 def check():
-    eagle = hou.node(Parameters.SKIN.value).parent()
-
-    for child in eagle.children():
-        if (child.name() == "OUT_eagle"):
-            hou.ui.displayMessage("All the attributes have already been created!!") #type: ignore
+    if (hasattr(hou.session, 'un_ft_attributes_created')): # type: ignore
+        created = hou.session.un_ft_attributes_created  # type: ignore
+        if (created):
+            hou.ui.displayMessage("All the attributes have already been created!!")  # type: ignore
             sys.exit()
+    else:
+        eagle = hou.node(Parameters.SKIN.value).parent()
+        for child in eagle.children():
+            if (child.name() == "OUT_eagle"):
+                hou.ui.displayMessage(
+                    "All the attributes have already been created!!")  # type: ignore
+                sys.exit()
 
 def create():
     # Check if all the attributes have been created and only then proceed
@@ -35,8 +41,9 @@ def create():
         attribute_paint = hou.node(skin_path).createNode("attribpaint", attribute)
 
         # Set the parameteres
+        value = 0 if attribute == "painted_concave" else 1
         attribute_create.parm("name1").set(attribute)
-        attribute_create.parm("value1v1").set(1)
+        attribute_create.parm("value1v1").set(value)
         attribute_paint.parm("attribname1").set(attribute)
 
         # Connect the creat to the paint node
@@ -61,3 +68,6 @@ def create():
 
     # Change the merge_skin parameter to point to the new NULL
     hou.parm(f"{Paths.ASSET.value}/merge_skin").set(null_node.path())
+
+    # Add to the session
+    hou.setSessionModuleSource("un_ft_attributes_created = True")
