@@ -1,3 +1,4 @@
+f@painted_density = point(0, "painted_density", i@root_pt);
 f@painted_scale = point(0, "painted_scale", i@root_pt);
 f@random_painted_scale = point(0, "random_painted_scale", i@root_pt);
 f@painted_ribbon = point(0, "painted_ribbon", i@root_pt);
