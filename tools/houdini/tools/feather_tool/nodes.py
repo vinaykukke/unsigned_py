@@ -40,8 +40,11 @@ def create():
         attribute_create = hou.node(skin_path).createNode("attribcreate::2.0", f"attribcreate_{attribute}")
         attribute_paint = hou.node(skin_path).createNode("attribpaint", attribute)
 
+        # Attributes to set to zero
+        zero_attributes = ["painted_tilt", "painted_concave"]
+
         # Set the parameteres
-        value = 0 if attribute == "painted_concave" else 1
+        value = 0 if attribute in zero_attributes else 1
         attribute_create.parm("name1").set(attribute)
         attribute_create.parm("value1v1").set(value)
         attribute_paint.parm("attribname1").set(attribute)
