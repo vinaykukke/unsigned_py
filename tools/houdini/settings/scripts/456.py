@@ -28,7 +28,7 @@ def mantra_driver():
     """
     Check and place drivers
     """
-    node = hou.node("/out/idf")
+    node = hou.node("/out/mantra1")
 
     if node is None:
         node = hou.node("/out").createNode("ifd")

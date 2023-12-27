@@ -17,7 +17,7 @@ def create_camera():
 
 # Create Mantra - PBR driver
 def mantra_driver():
-    node = hou.node("/out/idf")
+    node = hou.node("/out/mantra1")
 
     if node is None:
         node = hou.node("/out")
