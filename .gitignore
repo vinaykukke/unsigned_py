@@ -15,3 +15,9 @@ get-pip.py
 
 # Houdini HDA backup dir
 backup
+
+# Thinkbox Deadline Certificates
+*.pfx
+
+# Aws EC2 public key
+*.pem

@@ -128,3 +128,42 @@ sudo launchctl unload /Library/LaunchDaemons/com.sidefx.sesinetd.plist
 # To start the license server: 
 sudo launchctl load -w /Library/LaunchDaemons/com.sidefx.sesinetd.plist
 ```
+
+# Adding a nonexistant version of houdini into Thinkbox Deadline Monitor
+
+## Adding the houdini version to the plugins tab in  deadline
+Go here find the `Houdini.param` file
+
+```bash
+cd /Applications/Thinkbox/DeadlineRepository10/plugins/Houdini/
+```
+
+and the path to the `hython` executable and then add the path to the `simtracker.py` which in my case is `/Applications/Houdini/Houdini20.0.547/Frameworks/Houdini.framework/Versions/20.0/Resources/houdini/python3.10libs/simtracker.py`. It should look something like this:
+
+```
+[Houdini20_0_Hython_Executable]
+Label=Houdini 20.0 Hython Executable
+Category=Render Executables
+CategoryOrder=0
+Type=multilinemultifilename
+Index=15
+Default=/Applications/Houdini/Houdini20.0.547/Frameworks/Houdini.framework/Versions/20.0/Resources/bin/hython
+Description=The path to the hython executable. It can be found in the Houdini bin folder.
+
+[Houdini20_0_SimTracker]
+Label=Houdini 20.0 Sim Tracker File
+Category=HQueue Simulation Job Options
+CategoryOrder=1
+Type=multilinemultifilename
+Index=11
+Default= /Applications/Houdini/Houdini20.0.547/Frameworks/Houdini.framework/Versions/20.0/Resources/houdini/python3.10libs/simtracker.py
+Description=The path to the simtracker.py file that is used when distributing HQueue sim jobs. This file can be found in the Houdini install.
+```
+
+First enter the `power user mode` by clicking `tools/power user mode` Now you should be able to find your `Houdini 20.0` in the `tools/configure plugin/houdini` section
+
+## Adding the integrated deadline to houdini
+In order to add the `submit to deadline` item in the render tab, the fooling needs to be done:
+
+- Goto: `/Applications/Thinkbox/DeadlineRepository10/submission/Houdini/Installers` and install the submitter for the supported version of houdini
+- Goto: `/Users/vinaykukke/Library/Preferences/houdini/19.5/packages` and copy the `deadline.json` file to the version of houdini you wish to be using it in. This will give you the integrated deadline menu item.
