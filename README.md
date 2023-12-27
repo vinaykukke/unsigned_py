@@ -131,6 +131,40 @@ sudo launchctl load -w /Library/LaunchDaemons/com.sidefx.sesinetd.plist
 
 # Adding a nonexistant version of houdini into Thinkbox Deadline Monitor
 
+## Adding the integrated deadline to houdini / Manual Installation
+
+You can also refer to the thee deadline [installation guide](https://docs.thinkboxsoftware.com/products/deadline/10.3/1_User%20Manual/manual/app-houdini.html#manual-installation).
+
+First, copy the following files and directories to: `%localappdata%\Thinkbox\Deadline[VERSION]\submitters\HoudiniSubmitter` on Windows or `~/Library/Application Support/Thinkbox/Deadline[VERSION]/submitters/HoudiniSubmitter` on macOS or `~/Thinkbox/Deadline[VERSION]/submitters/HoudiniSubmitter` on Linux (where [VERSION] is the major version of Deadline such as 10):
+
+```
+<Repository>\submission\Houdini\Client\otls
+<Repository>\submission\Houdini\Client\soho
+<Repository>\submission\Houdini\Client\DeadlineHoudiniClient.py
+<Repository>\submission\Houdini\Client\MainMenuCommon.xml
+```
+
+Second, update the MainMenuCommon.xml that was copied by replacing `SUBMITTER_DIR` with `%localappdata%\Thinkbox\Deadline[VERSION]\submitters\HoudiniSubmitter` on Windows, `~/Library/Application Support/Thinkbox/Deadline[VERSION]/submitters/HoudiniSubmitter` on macOS and `~/Thinkbox/Deadline[VERSION]/submitters/HoudiniSubmitter` on Linux.
+
+Third, copy `<Repository>\submission\Houdini\Client\CallDeadlineCommand.py` to `%HOME%\Houdini{version}\python[version]libs` on Windows, `$HOME/Houdini[VERSION]/python[version]libs` on Linux, and `$HOME/Library/Preferences/houdini/[VERSION]/python[version]libs` on macOS. In my case it was:
+
+```
+$HOME/Library/Preferences/houdini/20.0/python3.10libs
+```
+
+Finally, you need to update your houdini environment. The method for this depends on which version of houdini you are using.
+
+If you are installing the submitter for houdini 17.5 or above, you need to copy `<Repository>\submission\Houdini\client\deadline.json` to `%HOME%\Houdini{version}\packages` on Windows, `$HOME/Houdini[VERSION]/packages` on Linux, and `$HOME/Library/Preferences/houdini/[VERSION]/packages` on macOS.
+
+If you are installing the submitter for houdini 17.0 or earlier, you need to add the following to the houdini.env file located in the Houdini [HOU VERSION] folder located in your user directory. In this file you need to add the following lines:
+
+```
+HOUDINI_PATH = "$HOUDINI_PATH;[HOU SUBMITTER DIR];&"
+HOUDINI_MENU_PATH = "$HOUDINI_MENU_PATH;[HOU SUBMITTER DIR];&"
+```
+
+(where [HOU SUBMITTER DIR] is the directory you copied the files to in the first step of installation.)
+
 ## Adding the houdini version to the plugins tab in  deadline
 Go here find the `Houdini.param` file
 
@@ -161,9 +195,3 @@ Description=The path to the simtracker.py file that is used when distributing HQ
 ```
 
 First enter the `power user mode` by clicking `tools/power user mode` Now you should be able to find your `Houdini 20.0` in the `tools/configure plugin/houdini` section
-
-## Adding the integrated deadline to houdini
-In order to add the `submit to deadline` item in the render tab, the fooling needs to be done:
-
-- Goto: `/Applications/Thinkbox/DeadlineRepository10/submission/Houdini/Installers` and install the submitter for the supported version of houdini
-- Goto: `/Users/vinaykukke/Library/Preferences/houdini/19.5/packages` and copy the `deadline.json` file to the version of houdini you wish to be using it in. This will give you the integrated deadline menu item.
