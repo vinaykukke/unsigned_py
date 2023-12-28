@@ -1,3 +1,4 @@
+from operator import eq
 import hou
 import sys
 from enum import Enum
@@ -27,9 +28,50 @@ def check():
                     "All the attributes have already been created!!")  # type: ignore
                 sys.exit()
 
+def set_expressions():
+    # Unlock the asset to edit it
+    asset = hou.node(Paths.ASSET.value)
+    asset.allowEditingOfContents()
+
+    # Set the expressions
+    box_s = ["sx", "sy", "sz"]
+    box_t = ["tx", "ty", "tz"]
+    size = hou.parmTuple("/obj/feather_tool_dev/feather_tool/delete_group_box/size")
+    translate = hou.parmTuple("/obj/feather_tool_dev/feather_tool/delete_group_box/t")
+
+    for i, s in enumerate(size):
+        s.setExpression(f"ch('../../../{asset.name()}__group_box/{box_s[i]}')")
+
+    for i, t in enumerate(translate):
+        t.setExpression(f"ch('../../../{asset.name()}__group_box/{box_t[i]}')")
+
+def create_group_box():
+    root_node = hou.node("/obj")
+    children = root_node.children()
+    group_box_name = f"{hou.node(Paths.ASSET.value)}__group_box"
+    group_exists = [c for c in children if c.name() == group_box_name]
+
+    # Add if no other bounding box for the feather tool exists
+    if (len(group_exists) == 0):
+        tool_position = hou.node(Paths.ASSET.value).position()
+        geo = root_node.createNode("geo", group_box_name)
+        geo.createNode("box")
+        # Set the position in the network editior
+        geo.setPosition(hou.Vector2(tool_position[0], tool_position[1] - 2.5))
+        # Set position in the viewport
+        geo.parmTuple("t").set((0,1,0))
+        # Set the display to be bounding box
+        geo.parm("viewportlod").set(2)
+        geo.setDisplayFlag(True)
+    
+    # Once the box is created set expressions
+    set_expressions()
+
 def create():
     # Check if all the attributes have been created and only then proceed
     check()
+    # Create the group box
+    create_group_box()
 
     # Create attributes
     skin_path = hou.node(Parameters.SKIN.value).parent().path()
