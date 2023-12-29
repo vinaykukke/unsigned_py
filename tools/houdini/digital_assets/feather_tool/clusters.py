@@ -37,10 +37,11 @@ def check_clusters():
     for i in cluster_switch.inputs():
         cluster_switch.setFirstInput(None)
 
-
-
 def create():
+    # Check for existing cluster and destroy them
     check_clusters()
+
+    # After all the clusters are destroyed then add new ones
     asset = hou.node(".").path()
     cluster_sizes = hou.parm(f"{asset}/cluster_core").rawValue()
     loop_range = (int(cluster_sizes) * 2) - 2
