@@ -1,14 +1,12 @@
-import inspect
-import math
-import sys
 import hou
 
 asset = hou.node(".").path()
-cluster_sizes = hou.parm(f"{asset}/cluster_core").rawValue()
+cluster_sizes = int(hou.parm(f"{asset}/cluster_core").rawValue())
+select_cluster = hou.parm(f"{asset}/select_cluster")
 in_cluster = hou.node(f"{asset}/feather_tool/IN_CLUSTER")
-children = hou.node("./feather_tool").children()
-cluster_switch = hou.node("./feather_tool/cluster_switch")
-loop_range = (int(cluster_sizes) * 2) - 2
+children = hou.node(f"{asset}/feather_tool").children()
+cluster_switch = hou.node(f"{asset}/feather_tool/cluster_switch")
+loop_range = (cluster_sizes * 2) - 2
 
 def powers_of_2(n):
     powers = [2**i for i in range(n+1) if i > 0]
@@ -24,15 +22,6 @@ def get_sizes():
 
     return sizes
 
-def find_power_of_2(number):
-    if number <= 0 or not isinstance(number, int):
-        hou.ui.displayMessage(
-            f"Error in function: {inspect.currentframe().f_code.co_name} in module: {__name__}! Please check the console.")  # type: ignore
-        print("Invalid input. Please provide a positive integer.")
-        sys.exit()
-
-    return int(math.log2(number))
-
 def check_clusters():
     cluster_inputs = cluster_switch.inputs()
 
@@ -43,7 +32,7 @@ def check_clusters():
     for _ in cluster_inputs:
         cluster_switch.setFirstInput(None)
     
-    if (int(cluster_sizes) == 0):
+    if (cluster_sizes == 0):
         cluster_switch.setFirstInput(in_cluster)
 
 def create():
@@ -51,7 +40,7 @@ def create():
     check_clusters()
 
     # After all the clusters are destroyed then add new ones
-    if (int(cluster_sizes) != 0):
+    if (cluster_sizes != 0):
         cluster_switch.setFirstInput(None)
 
     for i in range(loop_range):
@@ -71,3 +60,16 @@ def create():
             cluster_switch.setNextInput(delete_node)
         
         delete_node.moveToGoodPosition()
+
+def select():
+    list = []
+
+    if (cluster_sizes == 0):
+        list = [0, 0]
+        select_cluster.set(0)
+    else:
+        for c in range(cluster_sizes):
+            list.append(c+1)
+            list.append(c+1)
+
+    return list
