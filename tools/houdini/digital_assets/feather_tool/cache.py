@@ -2,7 +2,18 @@ import hou
 
 asset = hou.node(".").path()
 
+def destroy_readers():
+    children = hou.node("/obj").children()
+
+    for c in children:
+        if ("cluster_reader" in c.name()):
+            c.destroy()
+
 def create_reader_nodes():
+    # Destroy all previous reader nodes
+    destroy_readers()
+
+    # Then create new nodes
     asset_name = hou.node(asset).name()
     clusters = int(hou.parm(f"{asset}/cluster_core").rawValue())
     reader_node = hou.node("/obj").createNode("geo", "cluster_reader")
@@ -50,6 +61,8 @@ def write_to_disk():
         # Save the cache
         save.pressButton()
 
+    # Set clusters to 0
+    select_cluster.set(0)
     # Set the output path back to its original value
     output_node.set(output_path)
 
