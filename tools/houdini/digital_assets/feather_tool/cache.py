@@ -26,6 +26,8 @@ def create_reader_nodes():
     for i in range(clusters):
         file_node = reader_node.createNode("file", f"file_cluster_{i+1}")
         file_node.parm("file").set(f"$HIP/geo/feather_tool.{asset_name}.cluster.{i+1}.$F4.bgeo.sc")
+        # If file is not found dont show the geometry
+        file_node.parm("missingframe").set(1)
         merge_node.setInput(i+1, file_node)
     
     # Layout all the children
