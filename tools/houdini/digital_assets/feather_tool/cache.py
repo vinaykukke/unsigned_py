@@ -20,7 +20,7 @@ def create_reader_nodes():
     out_null = reader_node.createNode("null", "OUT_READER")
     merge_node = reader_node.createNode("merge", "reader_merge")
     r_position = hou.node(asset).position()
-    reader_node.setPosition(hou.Vector2(r_position[0]+ 3.5, r_position[1]))
+    reader_node.setPosition(hou.Vector2(r_position[0], r_position[1] - 1.2))
     out_null.setFirstInput(merge_node)
 
     for i in range(clusters):
