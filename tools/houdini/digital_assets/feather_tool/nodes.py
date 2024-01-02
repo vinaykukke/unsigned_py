@@ -1,4 +1,3 @@
-from operator import eq
 import hou
 import sys
 from enum import Enum
