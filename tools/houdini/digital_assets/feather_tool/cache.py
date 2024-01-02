@@ -9,6 +9,7 @@ def write_to_disk():
     output_node = hou.parm(f"{asset}/sopoutput")
     output_path = output_node.rawValue()
     clusters = int(hou.parm(f"{asset}/cluster_core").rawValue())
+    select_cluster = hou.parm(f"{asset}/select_cluster")
     save = hou.parm(f"{asset}/execute")
 
     # Set all the frame to be cached
@@ -20,7 +21,9 @@ def write_to_disk():
         split_output_path.insert(2, f"cluster.{i+1}")
         final_path = ".".join(split_output_path)
         output_node.set(final_path)
-        print(final_path)
+
+        # Move to the next cluster
+        select_cluster.set(i)
 
         # Save the cache
         save.pressButton()
