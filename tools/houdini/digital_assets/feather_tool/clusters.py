@@ -1,12 +1,8 @@
 import hou
+from enum import Enum
 
-asset = hou.node(".").path()
-cluster_sizes = int(hou.parm(f"{asset}/cluster_core").rawValue())
-select_cluster = hou.parm(f"{asset}/select_cluster")
-in_cluster = hou.node(f"{asset}/feather_tool/IN_CLUSTER")
-children = hou.node(f"{asset}/feather_tool").children()
-cluster_switch = hou.node(f"{asset}/feather_tool/cluster_switch")
-loop_range = (cluster_sizes * 2) - 2
+class Paths(Enum):
+    ASSET = hou.node(".").path()
 
 def powers_of_2(n):
     powers = [2**i for i in range(n+1) if i > 0]
@@ -23,6 +19,10 @@ def get_sizes():
     return sizes
 
 def check_clusters():
+    cluster_sizes = int(hou.parm(f"{Paths.ASSET.value}/cluster_core").rawValue())
+    in_cluster = hou.node(f"{Paths.ASSET.value}/feather_tool/IN_CLUSTER")
+    children = hou.node(f"{Paths.ASSET.value}/feather_tool").children()
+    cluster_switch = hou.node(f"{Paths.ASSET.value}/feather_tool/cluster_switch")
     cluster_inputs = cluster_switch.inputs()
 
     for c in children:
@@ -36,6 +36,11 @@ def check_clusters():
         cluster_switch.setFirstInput(in_cluster)
 
 def create():
+    cluster_sizes = int(hou.parm(f"{Paths.ASSET.value}/cluster_core").rawValue())
+    in_cluster = hou.node(f"{Paths.ASSET.value}/feather_tool/IN_CLUSTER")
+    cluster_switch = hou.node(f"{Paths.ASSET.value}/feather_tool/cluster_switch")
+    loop_range = (cluster_sizes * 2) - 2
+
     # Check for existing cluster and destroy them
     check_clusters()
 
@@ -44,7 +49,7 @@ def create():
         cluster_switch.setFirstInput(None)
 
     for i in range(loop_range):
-        delete_node = hou.node(f"{asset}/feather_tool").createNode("delete", f"delete_cluster_{i}")
+        delete_node = hou.node(f"{Paths.ASSET.value}/feather_tool").createNode("delete", f"delete_cluster_{i}")
         delete_node.parm("groupop").set(1)
 
         if (i%2 != 0):
@@ -53,7 +58,7 @@ def create():
         if (i < 2):
             delete_node.setNextInput(in_cluster)
         else:
-            parent_node = hou.node(f"{asset}/feather_tool/delete_cluster_{int(i/2) - 1}")
+            parent_node = hou.node(f"{Paths.ASSET.value}/feather_tool/delete_cluster_{int(i/2) - 1}")
             delete_node.setNextInput(parent_node)
         
         if (i >= (loop_range/2) - 1):
@@ -62,6 +67,8 @@ def create():
         delete_node.moveToGoodPosition()
 
 def select():
+    cluster_sizes = int(hou.parm(f"{Paths.ASSET.value}/cluster_core").rawValue())
+    select_cluster = hou.parm(f"{Paths.ASSET.value}/select_cluster")
     list = []
 
     if (cluster_sizes == 0):
