@@ -1,7 +1,29 @@
 import hou
 
+asset = hou.node(".").path()
+
+def create_reader_nodes():
+    asset_name = hou.node(asset).name()
+    clusters = int(hou.parm(f"{asset}/cluster_core").rawValue())
+    reader_node = hou.node("/obj").createNode("geo", "cluster_reader")
+    out_null = reader_node.createNode("null", "OUT_READER")
+    merge_node = reader_node.createNode("merge", "reader_merge")
+    r_position = hou.node(asset).position()
+    reader_node.setPosition(hou.Vector2(r_position[0]+ 3.5, r_position[1]))
+    out_null.setFirstInput(merge_node)
+
+    for i in range(clusters):
+        file_node = reader_node.createNode("file", f"file_cluster_{i+1}")
+        file_node.parm("file").set(f"$HIP/geo/feather_tool.{asset_name}.cluster.{i+1}.$F4.bgeo.sc")
+        merge_node.setInput(i+1, file_node)
+    
+    # Layout all the children
+    reader_node.layoutChildren()
+    # Set the flags
+    out_null.setDisplayFlag(True)
+    out_null.setRenderFlag(True)
+
 def write_to_disk():
-    asset = hou.node(".").path()
     c_range_min = hou.parm(f"{asset}/c_rangemin").eval()
     c_range_max = hou.parm(f"{asset}/c_rangemax").eval()
     frame_range = hou.parmTuple(f"{asset}/f")
@@ -30,5 +52,8 @@ def write_to_disk():
 
     # Set the output path back to its original value
     output_node.set(output_path)
+
+    # Create all the reader nodes
+    create_reader_nodes()
 
         
