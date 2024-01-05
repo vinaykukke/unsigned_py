@@ -21,3 +21,9 @@ backup
 
 # Aws EC2 public key
 *.pem
+
+# CSV
+*.csv
+
+# Remote Connection Server Cert
+*.crt
