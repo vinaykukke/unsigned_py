@@ -19,7 +19,7 @@ def get_sizes():
     return sizes
 
 def check_clusters():
-    cluster_sizes = int(hou.parm(f"{Paths.ASSET.value}/cluster_core").rawValue())
+    cluster_sizes = 2**int(hou.parm(f"{Paths.ASSET.value}/cluster_core").eval())
     in_cluster = hou.node(f"{Paths.ASSET.value}/IN_CLUSTER")
     children = hou.node(f"{Paths.ASSET.value}").children()
     cluster_switch = hou.node(f"{Paths.ASSET.value}/cluster_switch")
@@ -36,11 +36,14 @@ def check_clusters():
         cluster_switch.setFirstInput(in_cluster)
 
 def create():
-    cluster_sizes = int(hou.parm(f"{Paths.ASSET.value}/cluster_core").rawValue())
+    asset = hou.node(Paths.ASSET.value)
+    cluster_sizes = 2**int(hou.parm(f"{Paths.ASSET.value}/cluster_core").eval())
     in_cluster = hou.node(f"{Paths.ASSET.value}/IN_CLUSTER")
     cluster_switch = hou.node(f"{Paths.ASSET.value}/cluster_switch")
     loop_range = (cluster_sizes * 2) - 2
 
+    # Unlock the asset
+    asset.allowEditingOfContents()
     # Check for existing cluster and destroy them
     check_clusters()
 
@@ -50,11 +53,10 @@ def create():
 
     for i in range(loop_range):
         delete_node = hou.node(f"{Paths.ASSET.value}").createNode("delete", f"delete_cluster_{i}")
-        delete_node.parm("groupop").set(2)
+        delete_node.parm("groupop").set(1)
 
         if (i%2 != 0):
-            # delete_node.parm("rangestart").set(1)
-            delete_node.parm("filter").setExpression("@root_pt")
+            delete_node.parm("rangestart").set(1)
 
         if (i < 2):
             delete_node.setNextInput(in_cluster)
@@ -68,7 +70,7 @@ def create():
         delete_node.moveToGoodPosition()
 
 def select():
-    cluster_sizes = int(hou.parm(f"{Paths.ASSET.value}/cluster_core").rawValue())
+    cluster_sizes = 2**int(hou.parm(f"{Paths.ASSET.value}/cluster_core").eval())
     select_cluster = hou.parm(f"{Paths.ASSET.value}/select_cluster")
     list = []
 

@@ -36,15 +36,24 @@ def create_reader_nodes():
     out_null.setRenderFlag(True)
 
 def write_to_disk():
-    output_node = hou.parm(f"{asset}/sopoutput")
+    c_range_min = hou.parm(f"{asset}/c_rangemin").eval()
+    c_range_max = hou.parm(f"{asset}/c_rangemax").eval()
+    rop_geo_path = hou.parm(f"{asset}/rop_geo").eval()
+    frame_range = hou.parmTuple(f"{rop_geo_path}/f")
+    t_range = hou.parm(f"{rop_geo_path}/trange")
+    output_node = hou.parm(f"{rop_geo_path}/sopoutput")
     output_path = output_node.rawValue()
     clusters = int(hou.parm(f"{asset}/cluster_core").rawValue())
     select_cluster = hou.parm(f"{asset}/select_cluster")
-    save = hou.parm(f"{asset}/cluster_cache/execute")
+    save = hou.parm(f"{rop_geo_path}/execute")
+
+    # Set all the frame to be cached
+    frame_range.set((c_range_min, c_range_max, 1))
+    t_range.set(1)
 
     for i in range(clusters):
         split_output_path = output_path.split(".")
-        split_output_path.insert(2, str(i+1))
+        split_output_path.insert(1, f"cluster.{str(i+1)}")
         final_path = ".".join(split_output_path)
         output_node.set(final_path)
 
