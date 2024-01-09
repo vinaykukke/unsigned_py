@@ -32,7 +32,8 @@ def check_clusters():
     for _ in cluster_inputs:
         cluster_switch.setFirstInput(None)
     
-    if (cluster_sizes == 0):
+    # Since 2^0 = 1 we need to check for 1 here
+    if (cluster_sizes == 1):
         cluster_switch.setFirstInput(in_cluster)
 
 def create():
@@ -48,7 +49,8 @@ def create():
     check_clusters()
 
     # After all the clusters are destroyed then add new ones
-    if (cluster_sizes != 0):
+    # Since 2^0 = 1 we need to check for 1 here
+    if (cluster_sizes != 1):
         cluster_switch.setFirstInput(None)
 
     for i in range(loop_range):
@@ -74,7 +76,8 @@ def select():
     select_cluster = hou.parm(f"{Paths.ASSET.value}/select_cluster")
     list = []
 
-    if (cluster_sizes == 0):
+    # Since 2^0 = 1 we need to check for 1 here
+    if (cluster_sizes == 1):
         list = [0, 0]
         select_cluster.set(0)
     else:
