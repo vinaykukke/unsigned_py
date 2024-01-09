@@ -1,10 +1,11 @@
 from enum import Enum
 import hou
 
-master_resolution = hou.parm('/obj/feather_tool_dev/un_feather_resolution')
-feather_resolution = hou.parm('/obj/feather_tool_dev/feather_resolution')
-poly_feather_resolution = hou.parm('/obj/feather_tool_dev/poly_feather_resolution')
-poly_switch = hou.parm('/obj/feather_tool_dev/poly_vis_switch')
+asset = hou.node(".").path()
+master_resolution = hou.parm(f"{asset}/un_feather_resolution")
+feather_resolution = hou.parm(f"{asset}/feather_resolution")
+poly_feather_resolution = hou.parm(f"{asset}/poly_feather_resolution")
+poly_switch = hou.parm(f"{asset}/poly_vis_switch")
 
 class Resolutions(Enum):
     POLY = "poly"

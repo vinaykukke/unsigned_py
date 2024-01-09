@@ -89,7 +89,7 @@ def main():
     """
     create_camera()
     mantra_driver()
-    organize_layout()
+    # organize_layout()
 
 if __name__ == '__main__':
     main()
