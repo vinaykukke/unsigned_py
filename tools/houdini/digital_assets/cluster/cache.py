@@ -14,8 +14,7 @@ def create_reader_nodes():
     destroy_readers()
 
     # Then create new nodes
-    # asset_name = hou.node(asset).name()
-    clusters = int(hou.parm(f"{asset}/cluster_core").rawValue())
+    clusters = 2**int(hou.parm(f"{asset}/cluster_core").eval())
     reader_node = hou.node("/obj").createNode("geo", "cluster_reader")
     out_null = reader_node.createNode("null", "OUT_READER")
     merge_node = reader_node.createNode("merge", "reader_merge")
@@ -43,7 +42,7 @@ def write_to_disk():
     t_range = hou.parm(f"{rop_geo_path}/trange")
     output_node = hou.parm(f"{rop_geo_path}/sopoutput")
     output_path = output_node.rawValue()
-    clusters = int(hou.parm(f"{asset}/cluster_core").rawValue())
+    clusters = 2**int(hou.parm(f"{asset}/cluster_core").eval())
     select_cluster = hou.parm(f"{asset}/select_cluster")
     save = hou.parm(f"{rop_geo_path}/execute")
 
