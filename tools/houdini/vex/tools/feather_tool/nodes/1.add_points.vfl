@@ -39,3 +39,4 @@ setpointattrib(0, "check_pts", new_point, i[]@check_pts, "set");
 setpointattrib(0, "pts", new_point, i[]@pts, "set");
 setpointattrib(0, "painted_concave", new_point, i@painted_concave, "set");
 setpointattrib(0, "side", new_point, i@side, "set");
+setpointattrib(0, "base_pt", new_point, i@base_pt, "set");

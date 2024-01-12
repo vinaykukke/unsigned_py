@@ -1,0 +1,10 @@
+/** Extract the transformation */
+matrix3 transform = maketransform(0, @P);
+
+/** 
+ * Extract the rotation data.
+ * Here the @orient is coming from the guide deform
+ */
+matrix3 rotation = qconvert(@orient);
+
+4@my_matrix = rotation;

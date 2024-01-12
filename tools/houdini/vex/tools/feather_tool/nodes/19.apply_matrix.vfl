@@ -1,0 +1,4 @@
+/** Transfer matrix */
+4@my_matrix  = point(1, "my_matrix", i@base_pt);
+
+@P *= @my_matrix;

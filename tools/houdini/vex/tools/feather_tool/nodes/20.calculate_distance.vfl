@@ -1,0 +1,8 @@
+/** Calculate the feather curves position using the base_pt */
+vector pos = point(0, "P", i@base_pt);
+
+/** 
+ * Get the closest point of that position and 
+ * set it to the other points on the same feather 
+ */
+i@feather_root_pt = nearpoint(1, pos);

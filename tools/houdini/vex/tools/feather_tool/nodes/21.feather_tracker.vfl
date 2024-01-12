@@ -1,0 +1,9 @@
+/** Get the position of the base_pt on the feather curve */
+vector pos = point(0, "P", i@base_pt);
+
+/** Get the position of the base_pt on the feather */
+vector feather_base_pt_pos = point(1, "P", i@feather_root_pt);
+
+/** Subtrace the position values and apply to all points */
+vector distance = pos - feather_base_pt_pos;
+@P += distance;

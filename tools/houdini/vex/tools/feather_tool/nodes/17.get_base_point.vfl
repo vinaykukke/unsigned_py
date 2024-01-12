@@ -1,0 +1,1 @@
+i@base_pt = min(primpoints(0, @primnum));
