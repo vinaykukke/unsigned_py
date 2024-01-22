@@ -27,3 +27,6 @@ backup
 
 # Remote Connection Server Cert
 *.crt
+
+# Ignore the Certificates dir as well
+certs/
