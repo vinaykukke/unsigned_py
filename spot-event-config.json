@@ -1,11 +1,11 @@
 {
-    "blender_gpu_workers": 
+    "light_weight_gpu_workers": 
     {
         "IamFleetRole": "arn:aws:iam::948942456445:role/aws-ec2-spot-fleet-tagging-role",
         "AllocationStrategy": "priceCapacityOptimized",
         "TargetCapacity": 2,
-        "ValidFrom": "2024-01-22T10:51:03.000Z",
-        "ValidUntil": "2025-01-22T10:51:03.000Z",
+        "ValidFrom": "2024-01-23T13:14:58.000Z",
+        "ValidUntil": "2025-01-23T13:14:58.000Z",
         "TerminateInstancesWithExpiration": true,
         "Type": "maintain",
         "OnDemandAllocationStrategy": "lowestPrice",
@@ -18,6 +18,21 @@
                 },
                 "Overrides": [
                     {
+                        "InstanceType": "g4dn.2xlarge",
+                        "WeightedCapacity": 1,
+                        "SubnetId": "subnet-085355f5539c9abe8"
+                    },
+                    {
+                        "InstanceType": "g4dn.2xlarge",
+                        "WeightedCapacity": 1,
+                        "SubnetId": "subnet-003092d7e58ece8d3"
+                    },
+                    {
+                        "InstanceType": "g4dn.2xlarge",
+                        "WeightedCapacity": 1,
+                        "SubnetId": "subnet-0efff90bebe3f3e3e"
+                    },
+                    {
                         "InstanceType": "g4dn.4xlarge",
                         "WeightedCapacity": 1,
                         "SubnetId": "subnet-085355f5539c9abe8"
@@ -31,22 +46,30 @@
                         "InstanceType": "g4dn.4xlarge",
                         "WeightedCapacity": 1,
                         "SubnetId": "subnet-0efff90bebe3f3e3e"
-                    },
-                    {
-                        "InstanceType": "g5.4xlarge",
-                        "WeightedCapacity": 1,
-                        "SubnetId": "subnet-085355f5539c9abe8"
-                    },
-                    {
-                        "InstanceType": "g5.4xlarge",
-                        "WeightedCapacity": 1,
-                        "SubnetId": "subnet-003092d7e58ece8d3"
-                    },
-                    {
-                        "InstanceType": "g5.4xlarge",
-                        "WeightedCapacity": 1,
-                        "SubnetId": "subnet-0efff90bebe3f3e3e"
-                    },
+                    }
+                ]
+            }
+        ],
+        "OnDemandTargetCapacity": 2 
+    },
+    "heavy_weight_gpu_workers": 
+    {
+        "IamFleetRole": "arn:aws:iam::948942456445:role/aws-ec2-spot-fleet-tagging-role",
+        "AllocationStrategy": "priceCapacityOptimized",
+        "TargetCapacity": 2,
+        "ValidFrom": "2024-01-23T13:14:58.000Z",
+        "ValidUntil": "2025-01-23T13:14:58.000Z",
+        "TerminateInstancesWithExpiration": true,
+        "Type": "maintain",
+        "OnDemandAllocationStrategy": "lowestPrice",
+        "LaunchSpecifications": [],
+        "LaunchTemplateConfigs": [
+            {
+                "LaunchTemplateSpecification": {
+                    "LaunchTemplateId": "lt-095e4ca4f4eab48c8",
+                    "Version": "$Latest"
+                },
+                "Overrides": [
                     {
                         "InstanceType": "g4dn.8xlarge",
                         "WeightedCapacity": 1,
@@ -95,6 +118,6 @@
                 ]
             }
         ],
-        "OnDemandTargetCapacity": 2
+        "OnDemandTargetCapacity": 2 
     }
 }
