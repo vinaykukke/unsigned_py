@@ -1,3 +1,63 @@
+# How to setup a custom AMI to install any version of a 3D software
+
+- [REFERENCE DOCUMENTATION](https://docs.thinkboxsoftware.com/products/deadline/10.1/1_User%20Manual/manual/aws-custom-ami.html)
+- In EC2 goto the AMI sections and select the `Deadline Base Worker 10.x.x.x` for Windows or Linux and launch an instance from it.
+- Once the instance is launched, connect to the instance using `SSH (Linux)` or `RDP (Windows)`
+- Once connected install the 3D software that you would like to have e.g Blender
+- Install the `Nvidia Graphic Driver`, these do not come automatically installed in the EC2 instance. To install them refere to the guide:
+    - [Windows Nvidia Drivers](https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/install-nvidia-driver.html#nvidia-GRID-driver)
+    - [Linux Nvidia Drivers](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/install-nvidia-driver.html#nvidia-GRID-driver)
+- `Linux` 
+    > `NOTE:` *Here the Linux being used is the Amazon Linux 2. This does not have a head and all softwares that are installed on it must be able to run headless.*
+    - GIT
+        - Run system update, this will update the existing packages and also refresh the system’s repository cache.
+            ``` bash
+            sudo yum update
+            sudo yum install git
+            ```
+        - Check that git is working
+        ```bash
+        git version
+        ```
+    - Install `Snap`
+
+    ```bash
+    sudo yum install snapd
+    sudo systemctl enable --now snapd.socket
+    sudo ln -s /var/lib/snapd/snap /snap
+    ```
+
+    - Install blender using snap
+    ```bash
+    snap install blender --classic
+    ```
+    - Once blender is installed please check the installation location using
+    ```bash
+    which blender
+    ```
+- `Windows`:
+    - Once the Windows instance has been configured, you must stop the Deadline Launcher Service. To do this, open the start menu and type “Powershell”. “Windows Powershell” should come up as the first item in the search results. Hit Enter and a Powershell window will open. In the powershell Window, run the following command:
+
+    ``` batch
+    :: Only for windows
+    Stop-Service -Name "deadline10launcherservice"
+    ```
+
+    - Next, run EC2LaunchSettings from the start menu. 
+        - Go to the start menu, type Ec2LaunchSettings and launch it.
+        - Make sure Set Computer Name is selected. This will ensure each instance you create has a unique name.
+        - Select Run EC2Launch on every boot.
+        - Click - Shutdown without Sysprep
+- Once the instance has been configured go to `AWS Management Console > EC2 > Instance`. Right click your instance, `select Image > Create Image`. Then input the Image Name, Note that Image Names must be unique per region per account. Click Create Image after you have input the Image Name.
+- Once your AMI has been created make a launch template from the running instance.
+    - Once your new AMI is listed as available, go to Services → EC2 and click Instances (running).
+    - Right-click your Workstation instance and choose Image and templates → Create template from instance.
+    - Name your launch template (e.g., My-Studio-Workstation-LT). Write down the name on your cheat sheet.
+    - Under Network interfaces, set Auto-assign public IP to Enable, otherwise you will not be able to connect to the instances you launch.
+    - Add the necessary security groups:
+        - Windows: `unsigned-windows-SG`
+        - Linux: `unsigned-linux-SG`
+
 # Choosing the right EC2 Instance for rendering.
 
 Please refer to these blog post about the same:

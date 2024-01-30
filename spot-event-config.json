@@ -31,21 +31,6 @@
                         "InstanceType": "g4dn.2xlarge",
                         "WeightedCapacity": 1,
                         "SubnetId": "subnet-0efff90bebe3f3e3e"
-                    },
-                    {
-                        "InstanceType": "g4dn.4xlarge",
-                        "WeightedCapacity": 1,
-                        "SubnetId": "subnet-085355f5539c9abe8"
-                    },
-                    {
-                        "InstanceType": "g4dn.4xlarge",
-                        "WeightedCapacity": 1,
-                        "SubnetId": "subnet-003092d7e58ece8d3"
-                    },
-                    {
-                        "InstanceType": "g4dn.4xlarge",
-                        "WeightedCapacity": 1,
-                        "SubnetId": "subnet-0efff90bebe3f3e3e"
                     }
                 ]
             }
