@@ -28,12 +28,25 @@
     ```
 
     - Install blender using snap
+    
     ```bash
     snap install blender --classic
     ```
+
     - Once blender is installed please check the installation location using
+    
     ```bash
     which blender
+    ```
+
+    - Install Homebrew: [Reference](https://linux.how2shout.com/how-to-install-homebrew-on-linux/)
+    ```bash
+    # git must be installed for this to work
+    sudo yum update
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+    eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+    # Check if homebrew is installed
+    brew doctor
     ```
 - `Windows`:
     - Once the Windows instance has been configured, you must stop the Deadline Launcher Service. To do this, open the start menu and type “Powershell”. “Windows Powershell” should come up as the first item in the search results. Hit Enter and a Powershell window will open. In the powershell Window, run the following command:
@@ -149,3 +162,7 @@ The following P3 instance types are currently available:
     p3.16xlarge has 8 GPUs with 128 GiB of GPU RAM, and 64 vCPUs with 488 GiB of RAM
 
 The P3 instance types have CUDA Compute Capability 7.0 and G3 instance types have CUDA Compute Capability 5.2. The latter is recommended for Redshift rendering.
+
+## Concurrent Tasks vs. Multi-Worker Rendering
+
+Please go through the [article](https://www.awsthinkbox.com/blog/concurrent-tasks-vs-multi-worker-rendering) for more information
