@@ -18,17 +18,17 @@
                 },
                 "Overrides": [
                     {
-                        "InstanceType": "g4dn.2xlarge",
+                        "InstanceType": "g4dn.xlarge",
                         "WeightedCapacity": 1,
                         "SubnetId": "subnet-085355f5539c9abe8"
                     },
                     {
-                        "InstanceType": "g4dn.2xlarge",
+                        "InstanceType": "g4dn.xlarge",
                         "WeightedCapacity": 1,
                         "SubnetId": "subnet-003092d7e58ece8d3"
                     },
                     {
-                        "InstanceType": "g4dn.2xlarge",
+                        "InstanceType": "g4dn.xlarge",
                         "WeightedCapacity": 1,
                         "SubnetId": "subnet-0efff90bebe3f3e3e"
                     }

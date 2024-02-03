@@ -19,28 +19,11 @@
         ```bash
         git version
         ```
-    - Install `Snap`
-
-    ```bash
-    sudo yum install snapd
-    sudo systemctl enable --now snapd.socket
-    sudo ln -s /var/lib/snapd/snap /snap
-    ```
-
-    - Install blender using snap
-    
-    ```bash
-    snap install blender --classic
-    ```
-
-    - Once blender is installed please check the installation location using
-    
-    ```bash
-    which blender
-    ```
 
     - Install Homebrew: [Reference](https://linux.how2shout.com/how-to-install-homebrew-on-linux/)
     ```bash
+    # Set a password for the ec2-user before you install brew
+    sudo passwd ec2-user
     # git must be installed for this to work
     sudo yum update
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
@@ -48,6 +31,115 @@
     # Check if homebrew is installed
     brew doctor
     ```
+
+    - Install `Snap`
+
+    ```bash
+    sudo yum -y install https://github.com/albuild/snap/releases/download/v0.1.0/snapd-2.36.3-0.amzn2.x86_64.rpm
+    sudo yum -y install https://github.com/albuild/snap/releases/download/v0.1.0/snap-confine-2.36.3-0.amzn2.x86_64.rpm
+    sudo systemctl enable --now snapd.socket
+    sudo reboot
+    sudo ln -s /var/lib/snapd/snap /snap
+    ```
+
+    - Install blender using snap
+    
+    ```bash
+    # Use this to install the latest version of blender
+    snap install blender --classic
+    # Use this to install a custom version
+    sudo snap install blender --channel=3.4lts/stable --classic
+    ```
+
+    - Once blender is installed please check the installation location using
+    
+    ```bash
+    # default installation dir is /var/lib/snapd/snap/bin/blender
+    which blender
+    # Check if blender is working
+    blender -h
+    ```
+
+    - Installing NVIDIA Grid Drivers for ec2 vGPUS: [Reference](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/install-nvidia-driver.html#nvidia-GRID-driver)
+        - Install gcc and make, if they are not already installed.
+        ```bash
+        sudo yum install gcc make
+        ```
+        - Update your package cache and get the package updates for your instance.
+        ```bash
+        sudo yum update -y
+        ```
+        - Reboot your instance to load the latest kernel version.
+        ```bash
+        sudo reboot
+        ```
+        - Reconnect to your instance after it has rebooted.
+        - Install the gcc compiler and the kernel headers package for the version of the kernel you are currently running.
+        ```bash
+        sudo yum install -y gcc kernel-devel-$(uname -r)
+        ```
+        - Configure aws user
+        ```bash
+        # Please enter the credentials AWS IAM User AWSLinuxGPUDriver
+        aws configure
+        ```
+        - Download the GRID driver installation utility using the following command:
+        ```bash
+        aws s3 cp --recursive s3://ec2-linux-nvidia-drivers/latest/ .
+        ```
+        - Multiple versions of the GRID driver are stored in this bucket. You can see all of the available versions using the following command.
+        ```bash
+        aws s3 ls --recursive s3://ec2-linux-nvidia-drivers/
+        ```
+        - Add permissions to run the driver installation utility using the following command.
+        ```bash
+        chmod +x NVIDIA-Linux-x86_64*.run
+        ```
+        - Run the self-install script as follows to install the GRID driver that you downloaded. For example:
+        ```bash
+        sudo /bin/sh ./NVIDIA-Linux-x86_64*.run
+        ```
+        > Note: If you are using Amazon Linux 2 with kernel version 5.10, use the following command to install the GRID driver.
+        ```bash
+        sudo CC=/usr/bin/gcc10-cc ./NVIDIA-Linux-x86_64*.run
+        ```
+        When prompted, accept the license agreement and specify the installation options as required (you can accept the default options).
+        - Confirm that the driver is functional. The response for the following command lists the installed version of the NVIDIA driver and details about the GPUs.
+        ```bash
+        nvidia-smi -q | head
+        ```
+        - If you are using NVIDIA vGPU software version 14.x or greater on the G4dn, G5, or G5g instances, disable GSP with the following commands. For more information, on why this is required visit [NVIDIA’s documentation](https://docs.nvidia.com/grid/latest/grid-vgpu-user-guide/index.html#disabling-gsp).
+        ```bash
+        sudo touch /etc/modprobe.d/nvidia.conf
+        echo "options nvidia NVreg_EnableGpuFirmware=0" | sudo tee --append /etc/modprobe.d/nvidia.conf
+        ```
+        - Reboot the instance.
+        ```bash
+        sudo reboot
+        ```
+    
+    - To optimize GPU settings please refer: [Optimize GPU Settings](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/optimize_gpu.html)
+
+    - ERRORS:
+        - `/lib64/libc.so.6: version GLIBC_2.27 not found`
+        This means that the currenty installed version of blender uses the GLIBC 2.7 and the OS doesnt support this GLIBC version.
+        To check the current version of GLIBC, use the following command:
+        ```bash
+        ldd --version
+        # OUTPUT
+        # ldd (GNU libc) 2.26 <= Version of GLIBC
+        # Copyright (C) 2017 Free Software Foundation, Inc.
+        # This is free software; see the source for copying conditions.  There is NO
+        # warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+        # Written by Roland McGrath and Ulrich Drepper
+        ```
+
+        - `Error while loading shared libraries: libX11.so.6: cannot open shared object file: No such file or directory`
+        This means some packages are missing related to blender, it is related to the previous problem. You can try to install the packages by:
+        ```bash
+        sudo yum install libX11
+        ```
+
 - `Windows`:
     - Once the Windows instance has been configured, you must stop the Deadline Launcher Service. To do this, open the start menu and type “Powershell”. “Windows Powershell” should come up as the first item in the search results. Hit Enter and a Powershell window will open. In the powershell Window, run the following command:
 
