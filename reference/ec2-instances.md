@@ -39,6 +39,7 @@
     sudo yum -y install https://github.com/albuild/snap/releases/download/v0.1.0/snap-confine-2.36.3-0.amzn2.x86_64.rpm
     sudo systemctl enable --now snapd.socket
     sudo reboot
+    # This is to make a sym-link to the path /snap - Optional
     sudo ln -s /var/lib/snapd/snap /snap
     ```
 
@@ -59,6 +60,8 @@
     # Check if blender is working
     blender -h
     ```
+
+    - Once everything is setup, before the job is submitted to deadline, please add the following path `/var/lib/snapd/snap/bin/blender` to the blender plugin in deadline `Tools => Configure Plugins => Blender`
 
     - Installing NVIDIA Grid Drivers for ec2 vGPUS: [Reference](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/install-nvidia-driver.html#nvidia-GRID-driver)
         - Install gcc and make, if they are not already installed.
