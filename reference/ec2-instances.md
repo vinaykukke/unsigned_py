@@ -258,6 +258,15 @@ The following P3 instance types are currently available:
 
 The P3 instance types have CUDA Compute Capability 7.0 and G3 instance types have CUDA Compute Capability 5.2. The latter is recommended for Redshift rendering.
 
-## Concurrent Tasks vs. Multi-Worker Rendering
+# Concurrent Tasks vs. Multi-Worker Rendering
 
 Please go through the [article](https://www.awsthinkbox.com/blog/concurrent-tasks-vs-multi-worker-rendering) for more information
+
+# Optimizing computing performance with AWS Thinkbox deadline
+
+Please go through the [article](https://aws.amazon.com/blogs/media/optimizing-computing-performance-with-aws-thinkbox-deadline-part-3/)
+
+# Stand-alone Renderers
+
+This will allow for making a stand alone fleet for clients that need this rendering service.
+To implement this please go through the `Studio In The Cloud - Tutorial 4. Building a Render Scheduler with AWS Thinkbox Deadline`. For each stand alone system all the deadline needs to be installed and connected to the `Asset Server` through the `Remote Connection Server`. Then the dedicated workers will show up in the monitor and they can be used for rendering.
