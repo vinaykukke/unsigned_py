@@ -57,6 +57,8 @@ print(sys.path) ## This should include the path to your module
 
 # Instant Update for Script / HMR
 
+> NOTE: This must be removed before releaseing the asset to production.
+
 To get this feature, its as simply as adding a small script in the tool
 ```python
 import importlib
@@ -66,6 +68,7 @@ import unsigned_py as upy
 importlib.reload(upy);
 upy.create_new_tool()
 ```
+
 # List all houdini paths
 A short cut to list all the paths houdini uses to store and look up things. You can use this in the houdini python shell
 ```python

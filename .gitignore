@@ -25,6 +25,9 @@ backup
 # CSV
 *.csv
 
+# Keys Dir
+/keys
+
 # Remote Connection Server Cert
 *.crt
 
