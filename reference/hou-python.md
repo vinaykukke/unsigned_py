@@ -1,37 +1,43 @@
-# Houdini Python
+# Houdini python
 
 ## Overview
-Using houdini python libs in normal python
-  - Hython.exe is a python shell wrapper that automatically sets env variables (http://www.sidefx.com/docs/houdini/hom/commandline)
-  - Call the houdini script setup to set necessary env variables (look at command line tools shortcut)
 
+Using houdini python libs in normal python
+
+- Hython.exe is a python shell wrapper that automatically sets env variables (http://www.sidefx.com/docs/houdini/hom/commandline)
+- Call the houdini script setup to set necessary env variables (look at command line tools shortcut)
 
 ## Common Recipes
-- Execute Python Script internal to HDA
+
+- Execute python Script internal to HDA
+
   - CallbackScript: source opdef:.?force_update.cmd
     ![](../_assets/hou_exec_pyscript1.png)
     ![](../_assets/hou_exec_pyscript2.png)
 
-
 - Using houdini python libs in normal python
-	- Hython.exe is a python shell wrapper that automatically sets env variables (http://www.sidefx.com/docs/houdini/hom/commandline)
-	- Call the houdini script setup to set necessary env variables (look at command line tools shortcut)
 
-- Get Python Code for Houdini Node or Operator
+  - Hython.exe is a python shell wrapper that automatically sets env variables (http://www.sidefx.com/docs/houdini/hom/commandline)
+  - Call the houdini script setup to set necessary env variables (look at command line tools shortcut)
+
+- Get python Code for Houdini Node or Operator
+
   ```python
   print hou.node('/obj/testgeo/ltcompute').asCode()
   ```
 
-- Execute Python Script internal to HDA
+- Execute python Script internal to HDA
   CallbackScript: `source opdef:.?force_update.cmd`
 
-- Execute Python Script internal to Subnet: (no need for reference to self or ../)
+- Execute python Script internal to Subnet: (no need for reference to self or ../)
+
   ```hscript
   CallbackScript: exec(hou.node("PromoteXfmParmsForPoseLib").parm('python').eval());promoteParameters("./")
   CallbackScript: exec(kwargs['node'].parm('python').eval())
   ```
 
 - Callback on parameter update/change:
+
   ```python
   def callbackUpdateXfmRot(event_type, **kwargs):
     node = kwargs['node']
@@ -50,6 +56,7 @@ Using houdini python libs in normal python
   ```
 
 - Manipulate Node
+
   ```python
   Import hou
   Import toolutils
@@ -60,6 +67,7 @@ Using houdini python libs in normal python
   ```
 
 - Get a list of all parameters on a node
+
   ```python
   all_parms = my_cam.parms()
   my_cam.parm("lookat").get()
@@ -69,42 +77,48 @@ Using houdini python libs in normal python
   ```
 
 - Get Point Attributes
+
   ```python
   [ x.name() for x in hou.node('/obj/mygeo/mysop').geometry().pointAttribs() ]
   ```
 
 - [Cook a node through python](https://www.sidefx.com/forum/topic/47479/)
+
   ```python
   hou.node('/obj/my_python_node').cook(force=True)
   ```
 
 - [Trigger a button](http://nicholaspfeiffer.com/blog/2016/2/20/houdini-tip-of-the-day-python-pressbutton-and-set-commands)
+
   ```python
   hou.parm('/obj/sphere_object1/rop_alembic1/execute').pressButton()
   ```
 
 - Get Children of a node
+
   ```python
   skelRigNode = hou.node(node.parm('skelRig').eval())
   for child in skelRigNode.children():
     print child
   ```
 
-
 - Basic Code to get selected prim string
+
   ```python
-  import toolutils 
-  viewer = toolutils.sceneViewer() 
-  geo = viewer.selectGeometry() 
+  import toolutils
+  viewer = toolutils.sceneViewer()
+  geo = viewer.selectGeometry()
   prims = geo.mergedSelectionString()
   ```
 
 - If you want get list of Prims
+
   ```python
   listPrim = hou.selectedNodes()[0].geometry().globPrims(prims)
   ```
 
 - Just list of Prim numbers
+
   ```python
   listPrimNum = []
   for i in listPrim:
@@ -112,24 +126,25 @@ Using houdini python libs in normal python
   ```
 
 - [Get the index of a vector parameter or current parmTuple channel](https://sites.google.com/site/fujitarium/Houdini/python-houdini/python-template/select-point-prim)
+
   ```python
   pwd().parm(expandString('$CH')).componentIndex()
   ```
 
-
 - Get primitive from geo
+
   ```python
   iterPrims()[23]
   ```
 
 - Cur Node Path
+
   ```python
   scene_view = toolutils.sceneViewer()
   scene_view.pwd()
   hou.node('/obj/CloudThuggerVol/render_cam').path() => '/obj/CloudThuggerVol/render_cam'
   hou.node('/obj/CloudThuggerVol/render_cam').name() => 'render_cam'
   ```
-
 
 - Setting Dynamic Parameter range
   ```python
@@ -147,13 +162,12 @@ Using houdini python libs in normal python
 
 ## MultiParm parameters
 
-
 - Accessing
   - Houdini appends the array index of the param block to all the attribute names.
   - To reference, use '#'
   - attribute name: "geo_node#" => houdini will substitute to "geo_node0", "geo_node1", etc
   - It will automatically do this once it recognizes an attribute is inside a multiparm
-  - Default values: can be set doing the same thing using #. Ex: floor((# - 1)/9)*1.1
+  - Default values: can be set doing the same thing using #. Ex: floor((# - 1)/9)\*1.1
   - Ex: http://www.andynicholas.com/?p=639&page=4
 
 ## Dealing With Nodes
@@ -167,17 +181,17 @@ Using houdini python libs in normal python
   - For example, if the node being found is an object node, the return value will be a `hou.ObjNode` instance
   - If the path is an absolute path (i.e. it starts with /), this method is a shortcut for `hou.node(node_path)`
   - Otherwise, it is a shortcut for `hou.node(self.path() + "/" + node_path)`
-    - See also hou.node_
+    - See also hou.node\_
 - Access internal node named 'bindpose_after' in `constraintoffset` operator
   ```python
   choptoolutils.updatePose(kwargs['node'].node('bindpose_after'))
   ```
-- To get the parent node n:      `n.node("..")`
-- To get child named `geo5`:     `n.node("geo5")`
+- To get the parent node n: `n.node("..")`
+- To get child named `geo5`: `n.node("geo5")`
 - To get sibling named `light3`: `n.node("../light3")`
 
-
 - Also look at `python3.7libs\houdinihelp\examples.py`
+
   ```python
   subnet = network.createNode("subnet", subnet_name)
 
@@ -193,20 +207,23 @@ Using houdini python libs in normal python
   subnet.setGenericFlag(hou.nodeFlag.DisplayComment, True)
   ```
 
-
 ### Editor/HDA/Operator manipulation
+
 - Reload Editor Node Shapes
+
   ```python
   editor = hou.ui.paneTabOfType(hou.paneTabType.NetworkEditor)
   editor.reloadNodeShapes()
   ```
 
 - Set node shape
+
   ```python
   node.setUserData("nodeshape", "nodeshapeKLShield")
   ```
 
 - Enable Houdini Environment for python command line
+
 ```python
 def enableHouModule():
   '''Set up the environment so that "import hou" works.'''
@@ -219,7 +236,7 @@ def enableHouModule():
   # In turn, Houdini will load any HDK extensions written in C++.  These
   # extensions need to link against Houdini's libraries, so we need to
   # make sure that the symbols from Houdini's libraries are visible to
-  # other libraries that Houdini loads.  So, we adjust Python's dlopen
+  # other libraries that Houdini loads.  So, we adjust python's dlopen
   # flags before importing hou.
   if hasattr(sys, "setdlopenflags"):
     old_dlopen_flags = sys.getdlopenflags()
@@ -229,7 +246,7 @@ def enableHouModule():
   try:
     import hou
   except ImportError:
-    # Add $HFS/houdini/python3.7libs to sys.path so Python can find the hou module.
+    # Add $HFS/houdini/python3.7libs to sys.path so python can find the hou module.
     sys.path.append(os.environ['HFS'] + "/houdini/python%d.%dlibs" % sys.version_info[:2])
     import hou
   finally:
@@ -238,7 +255,9 @@ def enableHouModule():
 ```
 
 ## ROPS
+
 - Full ROP Example
+
   ```python
   def cleanup(current_node):
     default_material_node = current_node.node("matnetwork/VSR_DEFAULT_MATERIAL")
@@ -382,6 +401,7 @@ def enableHouModule():
   ```
 
 - Create bundle and lights
+
   ```python
   def create_rgb_light_rig():
     if not hou.nodeBundle('rgb_lightrig'):
@@ -551,16 +571,20 @@ def enableHouModule():
   ```
 
 ## Kiryha's Snippets
-[Kiryha's Python Snippets Inlined below](https://github.com/kiryha/Houdini/wiki/python-snippets)
 
-You can explore the node parameters with Python Shel:
+[Kiryha's python Snippets Inlined below](https://github.com/kiryha/Houdini/wiki/python-snippets)
+
+You can explore the node parameters with python Shel:
+
 - Create any node and tweak its parameters
-- Run Python Shell.
+- Run python Shell.
 - Type `node = `, drag node to Shell (you will get `hou.node('path/to/node')`), press enter.
 - Type `print node.asCode()`
 
 ### Snippets
+
 ##### Install pip in Houdini
+
 ```python
 # Download and save get-pip.py
 import os
@@ -568,12 +592,14 @@ os.popen('python get-pip.py').read()
 ```
 
 ##### Install package with pip in Houdini
+
 ```python
 import pip
 pip._internal.main(['install', 'package_name'])
 ```
 
 ##### Get Houdini environment variable
+
 ```python
 import hou
 
@@ -582,6 +608,7 @@ print hou.expandString("$HIPNAME")
 ```
 
 ##### Scene file operations
+
 ```python
 import hou
 sceneRoot = hou.node('/obj')
@@ -597,6 +624,7 @@ sceneRoot.loadChildrenFromFile('C:/temp/nodes.hipnc')
 ```
 
 ##### Get node from the scene
+
 ```python
 import hou
 node = hou.node('/<nodePath>/<nodeName>') # By name
@@ -606,13 +634,16 @@ node.children()
 ```
 
 ##### Get node upstream connections
-```Python
+
+```python
 listParents = node.inputAncestors()
 ```
 
 ##### Create node in the scene
-To create any node wiyh Python you have to set parent node for that. You need to create Geometry node in OBJ context.
-```Python
+
+To create any node wiyh python you have to set parent node for that. You need to create Geometry node in OBJ context.
+
+```python
 # Get scene root node
 OBJ = hou.node('/obj/')
 # Create Geometry node in scene root
@@ -629,13 +660,17 @@ xform.moveToGoodPosition() # Align new node
 # Create new transform node linked to existing transform
 xformNew= xform.createOutputNode('xform')
 ```
+
 ##### Delete node
+
 ```python
 import hou
 node = hou.node('/<nodePath>/<nodeName>')
 node.destroy() # Delete node
 ```
+
 ##### Delete parameter expression (chennal, animation)
+
 ```python
 import hou
 node = hou.node('/<nodePath>/<nodeName>')
@@ -643,6 +678,7 @@ node.parm(<parameterName>).deleteAllKeyframes()
 ```
 
 ##### Copy node to another location
+
 ```python
 import hou
 node = hou.node('/<nodePath>/<nodeName>')
@@ -651,6 +687,7 @@ hou.copyNodesTo([node], parent)
 ```
 
 ##### Get and set parameters
+
 ```python
 import hou
 node = hou.selectedNodes()[0]
@@ -677,21 +714,24 @@ remesh.setParms({'group': 'myGroup', 'element_sizing1': 1, 'iterations': 2})
 ```
 
 ##### Get Translate X keyframes of selected node
-```Python
+
+```python
 import hou
 node = hou.selectedNodes()[0]
 
 node.parm('tx').keyframes()
 ```
 
-##### Run hscript command form Python
-```Python
+##### Run hscript command form python
+
+```python
 # Run Redshift IPR
 hou.hscript('Redshift_openIPR')
 ```
 
 ##### Get all node parameters names
-```Python
+
+```python
 def getAllNodeParameters(node):
     # Return list of all parameters names for input node object
     allParameters = [param.name()for param in node.parms()]
@@ -699,6 +739,7 @@ def getAllNodeParameters(node):
 ```
 
 ##### Connect nodes
+
 ```python
 import hou
 # Create transform nodes
@@ -718,16 +759,21 @@ merge.inputs()
 # Get node outputs
 merge.outputs()
 ```
+
 ##### Get groups
-```Python
+
+```python
 import hou
 
 node = hou.selectedNodes()[0]
 groups = [g.name() for g in node.geometry().primGroups()]
 print groups
 ```
+
 ##### Builder workflow (shop context)
+
 Create "Material Surface Builder" in SHOP context, dive inside.
+
 ```python
 import hou
 shader = hou.node('/shop/vopmaterial1/lambert1')
@@ -740,6 +786,7 @@ print out.inputNames()
 ```
 
 ##### Filter node.children() output
+
 ```python
 import hou
 selectedNode = hou.selectedNodes()
@@ -754,6 +801,7 @@ vops = extractVop(selectedNode.children())
 ```
 
 Same task with list comprehensions:
+
 ```python
 import hou
 selectedNode = hou.selectedNodes()
@@ -763,9 +811,11 @@ vops = [node for node in selectedNode.children() if node.type().name() == 'vopsu
 ```
 
 ##### Run compiled PySide2 UI
-This is the better option (then running *.ui files, see below)!
-Create with QT Designer interface.ui file and save it somewhere where Houdini Python will see it (or add the path to the file to os.environ['PYTHONPATH']). Name main widget object (QWidget) "MyInterface".
+
+This is the better option (then running \*.ui files, see below)!
+Create with QT Designer interface.ui file and save it somewhere where Houdini python will see it (or add the path to the file to os.environ['PYTHONPATH']). Name main widget object (QWidget) "MyInterface".
 Create compile_ui.bat file:
+
 ```c
 set UIFILE=%1
 set UIDIR=%~dp$PATH:1
@@ -775,8 +825,9 @@ set SNAME=%UIDIR%%FILENAME%.py
 
 CALL C:\Python27\Scripts\pyside2-uic.exe %UIFILE% -o %SNAME%
 ```
+
 Drag and drop interface.ui on compile_ui.bat to get interface.py
-In Houdini run this code in Python Source Editor window:
+In Houdini run this code in python Source Editor window:
 
 ```python
 import os
@@ -806,7 +857,8 @@ win.show()
 ```
 
 ##### Run PySide UI
-Create and save a UI file with QT Designer. It could be just a blank widget (but not Main Window). In Houdini run this code in Python Source Editor window:
+
+Create and save a UI file with QT Designer. It could be just a blank widget (but not Main Window). In Houdini run this code in python Source Editor window:
 
 ```python
 # Run *ui file in Houdini
@@ -824,12 +876,14 @@ class MyWidget(QtWidgets.QWidget):
 win = MyWidget()
 win.show()
 ```
+
 You should have your window opened.
 
 ## Tools
 
 ### Expand Alembic
-```Python
+
+```python
 # Expand Alembic
 # Recreate alembic hierarchy by object groups and names
 # Select Alembic node, set
@@ -916,7 +970,8 @@ run()
 ```
 
 ### Import FBX into Houdini
-```Python
+
+```python
 import hou
 import os
 
@@ -932,10 +987,11 @@ for fileName in filesNamesFBX:
 ```
 
 ### Convert imported FBX to geometry
-```Python
+
+```python
 # 256 Pipeline tools
 # Convert FBX subnetwork to Geometry node
-# Import FBX into Houdini, select FBX subnetwork, run script in Python Source Editor
+# Import FBX into Houdini, select FBX subnetwork, run script in python Source Editor
 
 import hou
 # Get selected FBX container and scene root
@@ -997,7 +1053,8 @@ if checkConditions() != 0:
 ```
 
 ### Create Material Stylesheet UI
-```Python
+
+```python
 # Create Material Stylesheet parameter interface
 # Select Geometry node, run script
 
@@ -1022,7 +1079,8 @@ OBJ.setParmTemplateGroup(group)
 ```
 
 ### Flatten curve
-```Python
+
+```python
 # Flatten curve: set Y coord = 0
 coordList_SRC = '39.1665,0.362686,22.4173 55.3542,0.365759,10.9339'
 coords = coordList_SRC.split(' ')
